@@ -1,5 +1,8 @@
 # Dark Tower — Development Roadmap
 
+
+live : https://cholushkin.github.io/dark-tower-proto/
+
 ## 1. Project Vision
 
 **Dark Tower** is a game development project built around an experiment: exploring how AI agents can transform the way games are created by an experienced solo developer.
