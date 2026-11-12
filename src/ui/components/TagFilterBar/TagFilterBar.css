@@ -1,0 +1,9 @@
+.dt-tags, .dt-tags * { box-sizing: border-box; }
+.dt-tags { display: flex; align-items: stretch; gap: 10px; width: 100%; overflow-x: auto; scrollbar-width: thin; padding: 6px 3px 9px; }
+.dt-tags__option { flex: 1 0 145px; min-width: max-content; padding: 10px 15px; border: 1px solid #805472; border-radius: 9px; background: linear-gradient(180deg,#36243b,#25192f); color: #f3e5ed; box-shadow: inset 0 1px 0 #ffffff14; display: flex; align-items: center; justify-content: center; gap: 12px; cursor: pointer; white-space: nowrap; font: 700 16px/1 'Trebuchet MS',sans-serif; }
+.dt-tags__option:hover:not(.dt-tags__option--active) { border-color: #e6b1cb; background: #45304d; }
+.dt-tags__option--active { border-color: #ffe277; color: #fff4de; box-shadow: 0 0 0 2px #8d592b, 0 0 15px #e9a94055, inset 0 0 14px #a66e2944; background: linear-gradient(#4b2a37,#3b2633); }
+.dt-tags__option:focus-visible { outline: 2px solid #fff1a1; outline-offset: 3px; }
+.dt-tags__icon { color: #d8a9d2; font-size: 23px; line-height: 1; }
+.dt-tags__option--active .dt-tags__icon { color: #ffd45e; }
+@media(max-width:680px){ .dt-tags__option { flex: 0 0 auto; padding: 10px 13px; font-size: 13px; } .dt-tags__icon { font-size: 18px; } }

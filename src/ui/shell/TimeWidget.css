@@ -1,0 +1,109 @@
+/* View-only styles; all selectors are namespaced with tw- to avoid collisions. Reads the common theme tokens. */
+.tw-widget, .tw-widget * { box-sizing: border-box; }
+.tw-widget {
+  width: 100%;
+  background: var(--dt-surface-raised);
+  color: var(--dt-ink);
+  border: 3px solid var(--dt-border);
+  border-radius: var(--dt-radius);
+  font-family: var(--dt-font);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  user-select: none;
+}
+.tw-widget [hidden] { display: none !important; }
+.tw-widget button {
+  appearance: none;
+  font: inherit;
+  cursor: pointer;
+  border: 0;
+  color: inherit;
+  background: var(--dt-purple-soft);
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.tw-widget button:hover { background: #8e6ba3; }
+.tw-widget button:focus-visible { outline: 2px solid var(--dt-accent); outline-offset: 3px; }
+.tw-expanded { position: relative; padding: 17px 13px 12px; }
+.tw-fold {
+  position: absolute;
+  z-index: 2;
+  left: 9px;
+  top: 8px;
+  width: 22px;
+  height: 22px;
+  background: transparent !important;
+}
+.tw-fold svg, .tw-unfold svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.tw-main { display: flex; align-items: center; gap: 16px; }
+.tw-clock { position: relative; width: 120px; height: 120px; flex: none; }
+.tw-clock-svg { display: block; width: 120px; height: 120px; pointer-events: none; }
+.tw-clock-time {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: 8px;
+  text-align: center;
+  border-radius: 4px;
+  background: #1c252a;
+  color: #f7e9d4;
+  padding: 3px 0;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+.tw-summary { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 17px; }
+.tw-heading { display: flex; align-items: baseline; gap: 6px; white-space: nowrap; }
+.tw-heading strong { font-size: 25px; color: var(--dt-accent); }
+.tw-weekday { font-size: 12px; font-weight: 500; color: var(--dt-muted); }
+.tw-weekday::before { content: '('; }
+.tw-weekday::after { content: ')'; }
+.tw-weekdays { display: flex; gap: 4px; }
+.tw-day-cell {
+  width: 20px;
+  height: 23px;
+  border-radius: 4px;
+  background: var(--dt-purple-soft);
+  color: var(--dt-ink);
+  display: grid;
+  place-items: center;
+  font-size: 10px;
+  position: relative;
+}
+.tw-day-cell.is-payday { box-shadow: inset 0 0 0 2px var(--dt-accent); }
+.tw-day-cell.is-current { background: var(--dt-accent); color: var(--dt-accent-ink); font-weight: 800; }
+.tw-day-cell.is-current::after {
+  content: '';
+  position: absolute;
+  top: -7px;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid var(--dt-accent);
+}
+.tw-week-number { display: flex; align-items: center; gap: 7px; color: var(--dt-muted); }
+.tw-week-number strong { color: var(--dt-accent); font-size: 21px; }
+.tw-week-number svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; }
+.tw-controls { display: flex; gap: 5px; margin-top: 12px; align-items: center; }
+.tw-speed { flex: 1; min-width: 0; height: 32px; font-size: 12px !important; }
+.tw-speed.is-active { background: var(--dt-border); color: var(--dt-ink); }
+.tw-play { width: 40px; height: 32px; background: var(--dt-accent) !important; color: var(--dt-accent-ink) !important; flex: none; }
+.tw-play:hover { background: var(--dt-accent-strong) !important; }
+.tw-play svg { width: 19px; height: 19px; fill: currentColor; }
+/* The play button sits in the visual middle of the speed choices. */
+.tw-controls .tw-play { order: 3; }
+.tw-controls .tw-speed:nth-child(1) { order: 1; }
+.tw-controls .tw-speed:nth-child(2) { order: 2; }
+.tw-controls .tw-speed:nth-child(3) { order: 4; }
+.tw-controls .tw-speed:nth-child(4) { order: 5; }
+.tw-controls .tw-speed:nth-child(5) { order: 6; }
+.tw-widget.is-collapsed { width: auto; }
+.tw-collapsed { height: 42px; padding: 5px 7px; display: flex; align-items: center; gap: 8px; }
+.tw-unfold { background: transparent !important; width: 20px; height: 29px; padding: 0; flex: none; }
+.tw-unfold svg { transform: rotate(-90deg); }
+.tw-small-time { font-variant-numeric: tabular-nums; letter-spacing: .3px; margin-left: 2px; flex: 1; text-align: center; }
+.tw-collapsed .tw-play { width: 38px; height: 30px; }
+.tw-current-speed { width: 39px; height: 28px; font-size: 12px !important; }
+.tw-small-day { font-size: 13px; white-space: nowrap; margin: 0 3px 0 4px; }
+.tw-small-day strong { color: var(--dt-accent); font-size: 21px; }

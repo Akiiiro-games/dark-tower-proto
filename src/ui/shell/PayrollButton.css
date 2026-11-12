@@ -1,0 +1,24 @@
+.dt-payroll-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  border: 4px solid var(--dt-accent);
+  background: radial-gradient(circle at 40% 30%, var(--dt-accent-strong), var(--dt-accent) 70%);
+  color: var(--dt-accent-ink);
+  font: 800 13px/1 var(--dt-font);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  box-shadow: 0 0 0 4px var(--dt-stroke), 0 6px 14px #0a0610a0;
+  animation: dt-payroll-pulse 1.6s ease-in-out infinite;
+}
+.dt-payroll-btn:hover { background: radial-gradient(circle at 40% 30%, #ffe6ac, var(--dt-accent-strong) 70%); }
+.dt-payroll-btn__icon { font-size: 28px; line-height: 1; }
+@keyframes dt-payroll-pulse {
+  0%, 100% { box-shadow: 0 0 0 4px var(--dt-stroke), 0 6px 14px #0a0610a0; }
+  50% { box-shadow: 0 0 0 9px #f5c85b55, 0 6px 14px #0a0610a0; }
+}

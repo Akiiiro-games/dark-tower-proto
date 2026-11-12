@@ -1,0 +1,59 @@
+.dt-quarters,.dt-quarters * { box-sizing:border-box; }
+.dt-quarters { position:relative; isolation:isolate; width:100%; height:100%; min-height:0; overflow:hidden; color:#f9ebed; background:radial-gradient(ellipse 44% 32% at 16% 12%,#852c6566 0%,transparent 75%),radial-gradient(ellipse 50% 20% at 48% 90%,#8e2d695b,transparent 90%),linear-gradient(180deg,#1d1428 0%,#2b1833 44%,#1c1429 100%); font-family:'Trebuchet MS',Arial,sans-serif; }
+.dt-quarters__mountains { position:absolute; z-index:-1; inset:auto 0 0; height:21%; pointer-events:none; background:linear-gradient(172deg,transparent 48%,#25182f 49%),linear-gradient(186deg,transparent 50%,#311c3c 51%); opacity:.7; }
+.dt-quarters__shell { height:100%; width:100%; margin:auto; padding:13px 22px 18px; }
+.dt-quarters__window { height:100%; width:100%; max-width:1660px; margin:auto; display:flex; flex-direction:column; min-height:0; padding:13px 16px 17px; gap:13px; background:linear-gradient(175deg,#26172d 0%,#24162b 58%,#1d1426 100%); border:2px solid #975377; border-radius:18px; box-shadow:inset 0 0 0 1px #d498b71a,0 15px 36px #120b1c66; }
+.dt-quarters__topbar { flex:0 0 55px; min-height:0; position:relative; display:flex; justify-content:center; align-items:center; padding-bottom:10px; border-bottom:1px solid #7e4c6f77; }
+.dt-quarters__back { position:absolute; left:0; top:0; display:grid; place-items:center; width:53px; height:47px; border:2px solid #985276; border-radius:9px; color:#fff2d6; background:linear-gradient(#36213a,#241a2d); font:39px/1 Georgia,serif; cursor:pointer; box-shadow:inset 0 0 0 2px #3e2941; }
+.dt-quarters__back:hover { color:#ffd36b; border-color:#d49c65; }
+.dt-quarters__window-title { margin:0; color:#fff0d5; text-shadow:0 2px 3px #080411; letter-spacing:.035em; font:bold clamp(25px,2.8vw,41px)/1.15 Georgia,serif; }
+.dt-quarters__window-title::before,.dt-quarters__window-title::after { content:'◆'; font:12px Georgia,serif; color:#ffc44d; vertical-align:6px; margin:0 14px; }
+.dt-quarters__upper { flex:0 0 268px; min-height:0; display:grid; grid-template-columns:minmax(245px,310px) minmax(0,1fr); gap:22px; padding:1px 0 13px; border-bottom:1px solid #7e4c6f77; }
+.dt-quarters__room { min-width:0; min-height:0; }
+.dt-quarters__room .dt-room-card__art::after { display:none; }
+.dt-quarters__room .dt-room-card__art { flex:1; }
+.dt-quarters__room .dt-room-card__stat { font-size:14px; padding:4px 2px; }
+.dt-quarters__room .dt-room-card__stat-value { font-size:17px; }
+.dt-quarters__upgrades { position:relative; display:flex; flex-direction:column; min-height:0; padding:5px 35px 18px; }
+.dt-quarters__upgrade-viewport { overflow:auto hidden; overscroll-behavior-x:contain; scrollbar-width:none; flex:1; min-height:0; scroll-behavior:smooth; outline-offset:4px; }
+.dt-quarters__upgrade-viewport::-webkit-scrollbar { display:none; }
+.dt-quarters__upgrade-track { display:flex; gap:12px; height:100%; width:max-content; min-width:100%; }
+.dt-quarters__upgrade-slot { flex:0 0 187px; height:100%; min-width:0; }
+.dt-quarters__upgrades .dt-upgrade { padding:12px 10px; }
+.dt-quarters__upgrades .dt-upgrade__icon { font-size:26px; line-height:31px; height:31px; }
+.dt-quarters__upgrades .dt-upgrade__name { font-size:15px; min-height:36px; }
+.dt-quarters__upgrades .dt-upgrade__levels,.dt-quarters__upgrades .dt-upgrade__effects { font-size:12px; }
+.dt-quarters__upgrades .dt-upgrade__bottom { padding-top:6px; }
+.dt-quarters__upgrades .dt-upgrade__button { padding:7px 3px; min-height:37px; font-size:13px; }
+.dt-quarters__scroll-arrow { position:absolute; top:36%; width:29px; height:56px; display:grid; place-items:center; border:1px solid #76466d; border-radius:6px; background:#38253e; color:#ffc952; cursor:pointer; font:38px/1 Georgia,serif; }
+.dt-quarters__scroll-arrow--left { left:0; }.dt-quarters__scroll-arrow--right { right:0; }
+.dt-quarters__scroll-arrow:disabled { opacity:.33; color:#b58aa6; cursor:default; }
+.dt-quarters__upgrade-dots { position:absolute; bottom:0; left:50%; transform:translateX(-50%); display:flex; gap:8px; }
+.dt-quarters__upgrade-dots span { width:8px; height:8px; background:#57384f; border-radius:100%; }
+.dt-quarters__upgrade-dots .dt-quarters__dot--active { background:#fbc34a; box-shadow:0 0 8px #eaae37aa; }
+.dt-quarters__beds-section { min-height:0; flex:1.4; display:flex; flex-direction:column; overflow:hidden; }
+/* Minion roster — not in the mock; a War-Room-style read-only master list added per the brief. */
+.dt-quarters__minions-section { min-height:0; flex:1; display:flex; flex-direction:column; overflow:hidden; border-top:1px solid #805372a0; }
+.dt-quarters__minions-topline { flex:0 0 auto; display:flex; justify-content:space-between; padding:10px 17px 10px; font:700 12px/1.1 'Trebuchet MS',sans-serif; text-transform:uppercase; letter-spacing:.15em; color:#d5a8cf; }
+.dt-quarters__minions-viewport { flex:1; min-height:0; overflow-x:auto; overflow-y:hidden; padding:4px 16px 14px; scrollbar-color:#a25495 #342039; scrollbar-width:thin; }
+.dt-quarters__minions-track { display:flex; gap:10px; width:max-content; min-width:100%; height:100%; }
+.dt-quarters__minion-slot { width:128px; height:128px; flex:none; }
+.dt-quarters__minion-slot > .dt-minion { height:100%; }
+.dt-quarters__beds-topline { flex:0 0 auto; display:flex; justify-content:space-between; padding:2px 17px 10px; font:700 12px/1.1 'Trebuchet MS',sans-serif; text-transform:uppercase; letter-spacing:.15em; color:#d5a8cf; }
+.dt-quarters__beds-viewport { position:relative; flex:1; min-height:0; overflow:auto hidden; padding:6px 16px 18px; scrollbar-color:#a25495 #342039; scrollbar-width:thin; }
+.dt-quarters__beds-viewport::-webkit-scrollbar { width:10px; }.dt-quarters__beds-viewport::-webkit-scrollbar-track { background:#342039; border-radius:9px; }.dt-quarters__beds-viewport::-webkit-scrollbar-thumb { background:#925081; border:2px solid #342039; border-radius:9px; }
+.dt-quarters__beds-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; max-width:1170px; margin:0 auto; align-items:start; }
+.dt-quarters__bed-slot { min-width:0; }
+.dt-quarters__no-beds { min-height:240px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; color:#d5afd0; }.dt-quarters__no-beds[hidden] { display:none; }.dt-quarters__no-beds span { font-size:54px; }.dt-quarters__no-beds strong { font:bold 24px Georgia,serif; }.dt-quarters__no-beds p { margin:0; }
+.dt-quarters--busy { cursor:wait; }
+@media(max-width:1000px) { .dt-quarters__upper { grid-template-columns:250px minmax(0,1fr); gap:12px; flex-basis:245px; } .dt-quarters__upgrade-slot { flex-basis:172px; } .dt-quarters__upgrades { padding-inline:30px; } .dt-quarters__beds-grid { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+@media(max-width:720px) { .dt-quarters { min-height:630px; } .dt-quarters__shell { padding:8px; } .dt-quarters__window { padding:8px 9px 10px; gap:8px; border-radius:12px; } .dt-quarters__topbar { flex-basis:43px; padding-bottom:6px; } .dt-quarters__back { width:45px;height:39px;font-size:30px; } .dt-quarters__window-title { font-size:clamp(22px,5vw,28px);letter-spacing:0; } .dt-quarters__window-title::before,.dt-quarters__window-title::after { margin:0 5px;vertical-align:3px;font-size:8px; } .dt-quarters__upper { grid-template-columns:165px minmax(0,1fr); flex-basis:215px; gap:8px; padding-bottom:9px; } .dt-quarters__room .dt-room-card__art { flex-basis:43%; } .dt-quarters__room .dt-room-card__details { padding:6px 2px 0; } .dt-quarters__room .dt-room-card__stat { display:grid; grid-template-columns:20px minmax(0,1fr); font-size:10px;gap:1px;padding:2px 0; } .dt-quarters__room .dt-room-card__stat-icon { grid-row:span 2; font-size:16px; } .dt-quarters__room .dt-room-card__stat-value { grid-column:2;font-size:11px; } .dt-quarters__upgrades { padding:8px 23px 19px; } .dt-quarters__upgrade-slot { flex-basis:146px; } .dt-quarters__scroll-arrow { width:19px;height:44px;font-size:25px; }.dt-quarters__upgrades .dt-upgrade { padding:8px 5px; }.dt-quarters__upgrades .dt-upgrade__icon { height:25px;line-height:25px;font-size:21px; }.dt-quarters__upgrades .dt-upgrade__name { font-size:13px;min-height:32px; }.dt-quarters__upgrades .dt-upgrade__divider { margin:2px 0 4px; }.dt-quarters__upgrades .dt-upgrade__levels,.dt-quarters__upgrades .dt-upgrade__effects { font-size:11px; }.dt-quarters__upgrades .dt-upgrade__button { min-height:30px;padding:3px 1px;font-size:11px; }.dt-quarters__upgrades .dt-upgrade__bottom { padding-top:4px; } .dt-quarters__beds-viewport { padding:4px 8px 12px; } .dt-quarters__beds-topline { font-size:10px;padding:4px 8px 8px; } .dt-quarters__beds-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px; } }
+@media(max-width:400px) { .dt-quarters__upper { grid-template-columns:140px minmax(0,1fr); flex-basis:210px; }.dt-quarters__upgrade-slot { flex-basis:140px; } }
+@media(max-height:720px) and (min-width:721px) { .dt-quarters__upper { flex-basis:227px; }.dt-quarters__topbar { flex-basis:42px; }.dt-quarters__window { gap:8px; } }
+@media(prefers-reduced-motion:reduce) { .dt-quarters *, .dt-quarters *::before, .dt-quarters *::after { scroll-behavior:auto!important; } }
+/* Keep both room properties on one row, even on narrow phones. */
+@media(max-width:720px) {
+  .dt-quarters__room .dt-room-card__stat { grid-template-columns:18px minmax(0,1fr) auto; column-gap:2px; font-size:10px; }
+  .dt-quarters__room .dt-room-card__stat-icon { grid-row:auto; font-size:14px; }
+  .dt-quarters__room .dt-room-card__stat-value { grid-column:auto; font-size:11px; }
+}

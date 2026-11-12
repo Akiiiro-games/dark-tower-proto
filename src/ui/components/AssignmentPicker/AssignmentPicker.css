@@ -1,0 +1,17 @@
+.dt-assign,.dt-assign *{box-sizing:border-box}
+.dt-assign{position:absolute;inset:0;z-index:20;display:grid;place-items:center;padding:14px}
+.dt-assign__backdrop{position:absolute;inset:0;background:#11091bc9;backdrop-filter:blur(4px)}
+.dt-assign__dialog{position:relative;display:flex;flex-direction:column;width:min(580px,100%);max-height:min(660px,90%);padding:18px;border:2px solid #b17b98;border-radius:13px;background:#2b1b32;box-shadow:0 12px 65px #05040a}
+.dt-assign__top{display:flex;justify-content:space-between;align-items:start;gap:10px;border-bottom:1px solid #76526b;padding-bottom:10px;margin-bottom:12px}
+.dt-assign__top h2{font:bold 28px Georgia,serif;margin:0;color:#ffeacc}.dt-assign__top p{margin:6px 0 0;font-size:13px;color:#d8b6d0}
+.dt-assign__close{border:1px solid #a56d92;border-radius:9px;background:#422642;color:#fff1e7;font-size:27px;width:36px;height:36px;cursor:pointer}
+.dt-assign__list{display:flex;flex-direction:column;gap:8px;overflow:auto;padding:2px 5px 3px 0;scrollbar-color:#8e5382 #2b1b32}
+.dt-assign__candidate{display:flex;align-items:center;gap:10px;width:100%;min-height:66px;border:1px solid #9c627b;border-radius:10px;padding:7px;text-align:left;background:#39243e;color:#f6e6e8;cursor:pointer}
+.dt-assign__candidate:hover:enabled,.dt-assign__candidate:focus-visible{border-color:#ffcc58;background:#53334b;outline:none}
+.dt-assign__candidate:disabled{opacity:.43;cursor:not-allowed}
+.dt-assign__portrait{width:52px;height:52px;border:1px solid #ce9bbb;border-radius:8px;overflow:hidden;display:grid;place-items:center;background:#5a3551;font-size:31px;flex:none}
+.dt-assign__portrait img{width:100%;height:100%;object-fit:cover}
+.dt-assign__info{display:flex;flex-direction:column;gap:4px;min-width:0;flex:1}.dt-assign__info strong{font:700 19px Georgia,serif}.dt-assign__info small{font-size:12px;color:#d7afd0}
+.dt-assign__cost{font-size:12px;color:#ffcf65;font-weight:700;text-align:right;white-space:nowrap}
+.dt-assign__empty{padding:20px;color:#ccabc6;text-align:center}
+@media(max-width:620px){.dt-assign__dialog{padding:12px}.dt-assign__top h2{font-size:23px}.dt-assign__candidate{min-height:58px;gap:7px}.dt-assign__portrait{width:41px;height:41px}.dt-assign__info strong{font-size:16px}.dt-assign__cost{font-size:10px}}

@@ -1,0 +1,134 @@
+/* Screen layout only. Reusable ItemComponent CSS is imported through its module unchanged. */
+.dt-storehouse, .dt-storehouse * { box-sizing: border-box; }
+.dt-storehouse {
+  position: relative;
+  isolation: isolate;
+  width: 100%; height: 100%; min-height: 0;
+  overflow: hidden;
+  color: #f8eff0;
+  font-family: 'Trebuchet MS','Segoe UI',sans-serif;
+}
+.dt-storehouse::before {
+  content: ''; position:absolute; z-index:-1; width:270px; height:270px; top:-160px; left:3%; border-radius:50%;
+}
+/* One Storehouse window. The frame and backdrop belong to the whole screen content. */
+.dt-storehouse__shell {
+  position:relative; z-index:1;
+  height:100%; max-width:1600px; margin:0 auto;
+}
+.dt-storehouse__window {
+  display:flex; flex-direction:column; gap:12px;
+  width:100%; height:100%; min-height:0; overflow:hidden;
+  padding:13px 16px 16px;
+  border:2px solid #8d527b; border-radius:16px;
+  background:linear-gradient(155deg,#2b1b33f5,#211729f7 54%,#1a1425f8);
+  box-shadow:inset 0 0 0 4px #aa5e8d12, 0 12px 40px #0806119c;
+}
+.dt-storehouse__topbar {
+  display:grid; grid-template-columns:1fr auto 1fr; align-items:center;
+  flex:0 0 55px; min-height:0; position:relative;
+  border-bottom:1px solid #805372a0;
+  padding:0 0 9px;
+}
+.dt-storehouse__window-title {
+  grid-column:2; margin:0; justify-self:center;
+  font:bold clamp(25px,2.6vw,36px)/1.15 Georgia,serif;
+  color:#ffefd7; text-align:center; letter-spacing:.055em;
+  text-shadow:0 2px 3px #0c0718, 0 0 18px #d68b583b;
+}
+.dt-storehouse__window-title::before,
+.dt-storehouse__window-title::after { content:'◆'; margin:0 15px; color:#f7c85a; font:13px Georgia,serif; vertical-align:5px; }
+.dt-storehouse__back { grid-column:1; grid-row:1; justify-self:start; display:grid; place-items:center; width:55px; height:47px; padding:0; color:#fff0c8; font:bold 36px/1 Georgia,serif; border:2px solid #754166; border-radius:9px; background:linear-gradient(#2c1b31,#1b1628); box-shadow: inset 0 0 0 3px #ffffff0a, 0 3px 9px #090612aa; cursor:pointer; }
+.dt-storehouse__back:hover { color:#ffd65d; border-color:#df9fc2; }
+.dt-storehouse button:focus-visible { outline:2px solid #ffde79; outline-offset:3px; }
+.dt-storehouse__upper { flex:0 0 285px; min-height:0; display:grid; grid-template-columns: minmax(260px,305px) minmax(0,1fr); gap:16px; padding:3px 0 16px; border-bottom:1px solid #805372a0; }
+.dt-storehouse__room { height:100%; min-height:0; }
+.dt-storehouse__upgrades { position:relative; display:flex; align-items:center; min-width:0; min-height:0; padding:8px 38px 27px; background:linear-gradient(90deg,#21172777,#1b152433); }
+.dt-storehouse__upgrade-viewport { width:100%; height:100%; min-width:0; overflow-x:auto; overflow-y:hidden; scrollbar-width:none; scroll-snap-type:x proximity; }
+.dt-storehouse__upgrade-viewport::-webkit-scrollbar { display:none; }
+.dt-storehouse__upgrade-track { display:flex; align-items:stretch; gap:13px; height:100%; width:max-content; }
+.dt-storehouse__upgrade-slot { flex:0 0 190px; height:100%; scroll-snap-align:start; }
+.dt-storehouse__scroll-arrow { position:absolute; top:40%; transform:translateY(-50%); z-index:1; border:1px solid #814e74; border-radius:5px; background:#35253c; color:#ffd55a; width:27px; height:65px; font:normal 39px/1 Georgia,serif; cursor:pointer; display:grid; place-items:center; padding:0; }
+.dt-storehouse__scroll-arrow:hover:not(:disabled) { background:#51344f; border-color:#e7b46d; }
+.dt-storehouse__scroll-arrow:disabled { color:#69505c; border-color:#54364b; cursor:default; }
+.dt-storehouse__scroll-arrow--left { left:7px; }
+.dt-storehouse__scroll-arrow--right { right:7px; }
+.dt-storehouse__upgrade-dots { position:absolute; display:flex; gap:8px; bottom:10px; left:50%; transform:translateX(-50%); }
+.dt-storehouse__upgrade-dots span { height:9px; width:9px; border-radius:50%; background:#57384f; }
+.dt-storehouse__upgrade-dots .dt-storehouse__dot--active { background:#ffc64f; box-shadow:0 0 9px #eaa33faa; }
+.dt-storehouse__inventory { display:flex; flex-direction:column; flex:1 1 auto; min-height:0; }
+.dt-storehouse__filters { flex:0 0 auto; min-height:59px; padding:2px 4px; margin-bottom:5px; border-bottom:1px solid #80537285; }
+.dt-storehouse__inventory-frame { display:flex; flex-direction:column; flex:1 1 auto; min-height:0; overflow:hidden; background:transparent; }
+.dt-storehouse__inventory-topline { flex:0 0 auto; display:flex; align-items:center; justify-content:space-between; padding:9px 18px 6px; font-size:12px; color:#ccaece; text-transform:uppercase; letter-spacing:.12em; font-weight:700; }
+.dt-storehouse__inventory-title { color:#e0b8dd; }
+.dt-storehouse__inventory-viewport { position:relative; flex:1 1 auto; min-height:0; overflow-y:auto; overflow-x:hidden; padding:3px 13px 18px; scroll-behavior:auto; scrollbar-color:#a25495 #342039; scrollbar-width:thin; }
+.dt-storehouse__inventory-viewport::-webkit-scrollbar { width:10px; }
+.dt-storehouse__inventory-viewport::-webkit-scrollbar-track { background:#342039; border-radius:9px; }
+.dt-storehouse__inventory-viewport::-webkit-scrollbar-thumb { background:linear-gradient(#ba62aa,#793970); border-radius:9px; border:2px solid #342039; }
+.dt-storehouse__items { display:grid; grid-template-columns: repeat(auto-fill, minmax(min(165px,100%), 1fr)); gap:16px 13px; align-items:start; }
+.dt-storehouse__item-slot { min-width:0; }
+.dt-storehouse__item-slot .dt-item { --dt-item-sale-control-height:55px; }
+.dt-storehouse__item-slot .dt-item__tile { border-color:#975578; border-radius:10px; background:radial-gradient(ellipse at 50% 40%,#42263d 0%,#2d1c32 60%,#23182a 100%); }
+.dt-storehouse__item-slot .dt-item__info { background:#39263e; color:#e2b7d6; border-color:#d4a2c4; }
+.dt-storehouse__item-slot .dt-item__info:hover { background:#5b3a56; }
+.dt-storehouse__item-slot .dt-item__stack { top:6px; right:7px; min-height:22px; padding:2px 6px; border-color:#744a67; border-radius:999px; background:#1c1220dc; font-size:12px; }
+.dt-storehouse__item-slot .dt-item__info { top:7px; left:7px; width:23px; height:23px; font-size:14px; }
+.dt-storehouse__item-slot .dt-item__name { font: 700 14px/1.2 'Trebuchet MS',sans-serif; bottom:9px; }
+.dt-storehouse__item-slot .dt-item__emoji { font-size:clamp(42px,4.2vw,72px); }
+.dt-storehouse__item-slot .dt-item__sale-area { padding-top:7px; }
+.dt-storehouse__item-slot .dt-item__sell { border-color:#ffcc6e; background:linear-gradient(#e9a444,#c77827 65%,#a45124); color:#fff0d6; text-shadow:0 1px 2px #43200ecc; box-shadow:inset 0 1px 0 #ffe49b66,0 3px 0 #673522; }
+.dt-storehouse__item-slot .dt-item__sell:hover:not(:disabled) { background:linear-gradient(#f8bb5d,#e49740 60%,#af5b2a); }
+.dt-storehouse__item-slot .dt-item__selling-panel { background:linear-gradient(#8d669a,#6b477b); border-color:#c08ed2; box-shadow:inset 0 1px 0 #e4c0f155; }
+.dt-storehouse__item-slot .dt-item__panel-action { background:linear-gradient(#ecc36e,#d38b37); border-color:#f7d27f; }
+.dt-storehouse__item-slot .dt-item__panel-center { gap:3px; }
+.dt-storehouse__item-slot .dt-item__panel-label { font-size:10px; white-space:nowrap; }
+.dt-storehouse__item-slot .dt-item__remaining { font-size:9px; }
+.dt-storehouse__item-slot .dt-item__quick { font-size:10px; }
+.dt-storehouse__item-slot .dt-item--selling .dt-item__tile { border-color:#f5ca51; box-shadow:0 0 0 1px #f4c64c,0 0 15px #f2bb3b77; }
+.dt-storehouse__empty { color:#dfc7d8; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:9px; min-height:280px; padding:38px 10px; text-align:center; }
+.dt-storehouse__empty[hidden] { display:none!important; }
+.dt-storehouse__empty>span { font-size:54px; }
+.dt-storehouse__empty strong { font:700 24px Georgia,serif; }
+.dt-storehouse__empty p { margin:0; max-width:400px; color:#ac92aa; line-height:1.5; }
+.dt-storehouse--busy { cursor:wait; }
+@media(max-width:1050px) { .dt-storehouse__upper { grid-template-columns: 250px minmax(0,1fr); flex-basis:255px; gap:13px; } .dt-storehouse__upgrade-slot { flex-basis:175px; } .dt-storehouse__upgrades { padding-inline:35px; } .dt-storehouse__items { grid-template-columns:repeat(auto-fill,minmax(min(150px,100%),1fr)); } }
+@media(max-width:720px) { .dt-storehouse { height:100dvh; min-height:620px; } .dt-storehouse__shell { padding:9px 12px 12px; gap:9px; } .dt-storehouse__topbar { flex-basis:42px; } .dt-storehouse__back { width:47px; height:40px; font-size:30px; } .dt-storehouse__upper { flex-basis:220px; grid-template-columns:170px minmax(0,1fr); gap:8px; } .dt-storehouse__room .dt-room-card__art { flex-basis:43%; } .dt-storehouse__room .dt-room-card__details { padding:0 7px 8px; } .dt-storehouse__room .dt-room-card__name { font-size:18px; } .dt-storehouse__room .dt-room-card__name::before,.dt-storehouse__room .dt-room-card__name::after { margin:0 4px; font-size:8px; } .dt-storehouse__room .dt-room-card__stat { grid-template-columns:20px minmax(0,1fr); gap:2px; padding:1px 0; font-size:10px; } .dt-storehouse__room .dt-room-card__stat-icon { grid-row:span 2; font-size:14px; } .dt-storehouse__room .dt-room-card__stat-value { grid-column:2; font-size:11px; } .dt-storehouse__upgrades { padding:8px 24px 22px; } .dt-storehouse__upgrade-slot { flex-basis:155px; } .dt-storehouse__scroll-arrow { width:20px; height:44px; font-size:26px; } .dt-storehouse__scroll-arrow--left {left:2px;} .dt-storehouse__scroll-arrow--right {right:2px;} .dt-storehouse__upgrade-dots { bottom:5px; } .dt-storehouse__filters { min-height:50px; padding:1px 5px; margin-bottom:7px; } .dt-storehouse__items { grid-template-columns:repeat(2,minmax(0,1fr)); gap:13px 8px; } .dt-storehouse__inventory-viewport { padding:4px 9px 14px; } .dt-storehouse__inventory-topline { padding:7px 12px 5px; font-size:10px; } }
+@media(max-width:400px) { .dt-storehouse__upper { grid-template-columns:140px minmax(0,1fr); flex-basis:204px; } .dt-storehouse__room .dt-room-card__name { font-size:16px; } .dt-storehouse__upgrade-slot { flex-basis:145px; } .dt-storehouse__item-slot .dt-item__selling-panel { grid-template-columns:24px minmax(0,1fr) 45px; gap:2px; padding:3px; } .dt-storehouse__item-slot .dt-item__panel-label { font-size:9px; } .dt-storehouse__item-slot .dt-item__quick { font-size:9px; padding:1px; } }
+@media(max-height:700px) and (min-width:721px) { .dt-storehouse__upper { flex-basis:240px; } .dt-storehouse__topbar { flex-basis:39px; } .dt-storehouse__shell { gap:8px; } }
+@media(prefers-reduced-motion:reduce) { .dt-storehouse *, .dt-storehouse *::before, .dt-storehouse *::after { scroll-behavior:auto!important; transition:none!important; } }
+/* Keep the same upgrade module readable when the carousel is short on mobile. */
+@media (max-width:720px) {
+  .dt-storehouse__upgrades .dt-upgrade { padding:8px 7px; }
+  .dt-storehouse__upgrades .dt-upgrade__icon { font-size:22px; height:25px; line-height:25px; }
+  .dt-storehouse__upgrades .dt-upgrade__name { font-size:13px; min-height:31px; }
+  .dt-storehouse__upgrades .dt-upgrade__divider { margin:1px 0 5px; }
+  .dt-storehouse__upgrades .dt-upgrade__levels { font-size:12px; margin-bottom:1px; }
+  .dt-storehouse__upgrades .dt-upgrade__effects { font-size:12px; }
+  .dt-storehouse__upgrades .dt-upgrade__arrow { font-size:16px; }
+  .dt-storehouse__upgrades .dt-upgrade__bottom { padding-top:5px; }
+  .dt-storehouse__upgrades .dt-upgrade__button { min-height:32px; padding:4px 3px; font-size:11px; }
+}
+
+/* Unified frame stays intact across viewports; no independent section frames. */
+@media (max-width:1050px) {
+  .dt-storehouse__upper { flex-basis:255px; }
+}
+@media (max-width:720px) {
+  .dt-storehouse__shell { padding:8px; }
+  .dt-storehouse__window { padding:9px 10px 11px; gap:9px; border-radius:12px; }
+  .dt-storehouse__topbar { flex-basis:43px; padding-bottom:6px; }
+  .dt-storehouse__window-title { font-size:clamp(19px,5vw,28px); letter-spacing:0; }
+  .dt-storehouse__window-title::before,
+  .dt-storehouse__window-title::after { margin:0 5px; font-size:8px; vertical-align:3px; }
+  .dt-storehouse__upper { flex-basis:220px; padding:2px 0 10px; }
+  .dt-storehouse__filters { min-height:49px; padding:1px 0 0; margin-bottom:4px; }
+  .dt-room-card--embedded .dt-room-card__details { padding-top:6px; }
+}
+@media (max-width:400px) {
+  .dt-storehouse__upper { flex-basis:204px; }
+}
+@media (max-height:700px) and (min-width:721px) {
+  .dt-storehouse__upper { flex-basis:240px; }
+  .dt-storehouse__topbar { flex-basis:42px; }
+  .dt-storehouse__window { gap:8px; }
+}

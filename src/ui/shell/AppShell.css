@@ -1,0 +1,120 @@
+/* Dark Tower full-HD shell. Ported from fullhd-shell, retinted onto the common theme tokens. */
+.shell-viewport, .shell-stage { position: relative; width: 100%; height: 100%; overflow: hidden; }
+html, body, #app { width: 100%; height: 100%; overflow: hidden; }
+.shell-stage {
+  position: absolute;
+  width: 1920px;
+  height: 1080px;
+  top: 50%; left: 50%;
+  transform-origin: center center;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--dt-bg);
+}
+/* Top-left status line: coins, crystals. */
+.shell-topbar {
+  position: absolute;
+  z-index: 4;
+  left: 30px; top: 30px;
+  height: 76px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.shell-money {
+  display: flex; align-items: center;
+  flex: none;
+  height: 83px;
+  border: 6px solid var(--dt-border);
+  border-radius: 19px;
+  background: var(--dt-surface);
+  box-shadow: inset 0 0 0 4px var(--dt-stroke), 0 6px 0 #230e25;
+  padding: 0 18px;
+}
+.shell-currency { display: flex; align-items: center; gap: 7px; min-width: 0; font-size: 32px; font-weight: 800; white-space: nowrap; line-height: 1; color: var(--dt-ink); }
+.shell-currency-icon { width: 54px; height: 54px; flex: none; }
+.shell-money-divider { width: 4px; height: 42px; background: var(--dt-border); border-radius: 8px; margin: 0 20px 0 8px; }
+
+/* Header strip for the active window: back button + decorated caption, aligned above the window
+   column (not spanning the left widget column). */
+.shell-window-header {
+  position: absolute;
+  z-index: 4;
+  left: 400px; top: 30px; right: 36px;
+  height: 76px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.shell-window-header[hidden] { display: none; }
+
+.shell-back {
+  flex: none; width: 76px; height: 76px;
+  display: grid; place-items: center; cursor: pointer;
+  background: var(--dt-surface-raised); border: 5px solid var(--dt-border); border-radius: 17px;
+  color: var(--dt-ink); box-shadow: inset 0 0 0 4px var(--dt-stroke);
+  transition: background .1s;
+}
+.shell-back svg { width: 40px; height: 40px; }
+.shell-back:hover { background: #4c2044; }
+.shell-back:active { background: #762c55; }
+.shell-back:focus-visible { outline: 4px solid var(--dt-accent-strong); outline-offset: 3px; }
+
+.shell-caption {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  text-align: left;
+  font: bold clamp(28px, 2.6vw, 38px)/1 Georgia, serif;
+  letter-spacing: .03em;
+  color: var(--dt-ink); text-shadow: 0 2px 3px #080411;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.shell-caption::before, .shell-caption::after {
+  content: '◆';
+  font-size: 13px;
+  color: var(--dt-accent);
+  vertical-align: 6px;
+  margin: 0 16px;
+}
+
+/* Stacked left-column widgets: time widget, room nav, payroll button, debug panel — filled by the controller. */
+.shell-left-stack {
+  position: absolute;
+  z-index: 2;
+  left: 30px; top: 125px;
+  width: 300px; bottom: 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+/* Transparent layout slot only — the visual window chrome (border/background/shadow) belongs to
+   each screen's own `__window` element so there is exactly one frame, not a frame-in-a-frame. */
+.shell-window {
+  position: absolute;
+  z-index: 1;
+  left: 400px; top: 122px;
+  right: 36px; bottom: 44px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.shell-content { flex: 1; min-height: 0; overflow: hidden; }
+/* The ported screens (dt-storehouse, dt-warroom, ...) were authored as full-viewport demos
+   (100vh/100dvh). Embedded inside the shell's bounded window, they must fill it instead. */
+.shell-content > * { height: 100%; min-height: 0; }
+
+.shell-overlay {
+  position: absolute;
+  z-index: 10;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 5, 14, .72);
+}
+.shell-overlay[hidden] { display: none; }

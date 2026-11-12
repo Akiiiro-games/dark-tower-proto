@@ -1,0 +1,57 @@
+/*
+ * Dark Tower — single common theme for the whole game UI.
+ * Anchored on the time-widget / full-HD shell look (dark purple panels, warm pink-purple
+ * borders, gold for every interactive element). All screens and shared components read these
+ * tokens instead of hard-coding their own palette.
+ */
+:root {
+  color-scheme: dark;
+
+  /* Surfaces */
+  --dt-bg: #170f1d;
+  --dt-surface: #2a1f35;
+  --dt-surface-raised: #362a44;
+
+  /* Text */
+  --dt-ink: #f6eedc;
+  --dt-muted: #c3b2c9;
+
+  /* THE interactive color: every button, selectable tile and active state reads this. */
+  --dt-accent: #f5c85b;
+  --dt-accent-strong: #ffd978;
+  --dt-accent-ink: #31200e;
+
+  /* Secondary accents */
+  --dt-lavender: #c6afe7;
+  --dt-purple-soft: #7a5f8f;
+
+  /* Borders */
+  --dt-border: #a0528a;
+  --dt-stroke: #4a3a52;
+
+  --dt-positive: #8fd98f;
+  --dt-negative: #e2787f;
+
+  --dt-radius: 14px;
+  --dt-radius-lg: 20px;
+  --dt-font: 'Trebuchet MS', 'Segoe UI', sans-serif;
+
+  /* Back-compat aliases for views ported verbatim from ViewModelsProto/popups, which used a
+     different variable vocabulary for the same palette. Keeping both avoids editing their CSS. */
+  --dt-gold: var(--dt-accent);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; }
+body {
+  font-family: var(--dt-font);
+  background: var(--dt-bg);
+  color: var(--dt-ink);
+}
+button, select { font: inherit; }
+button { cursor: pointer; }
+button:disabled { cursor: not-allowed; }
+button:focus-visible, select:focus-visible, [tabindex]:focus-visible {
+  outline: 2px solid var(--dt-accent-strong);
+  outline-offset: 3px;
+}
