@@ -144,62 +144,16 @@
 }
 .dt-item__instant-sell:hover:not(:disabled) { background: var(--dt-item-yellow); color: var(--dt-accent-ink, #31200e); }
 .dt-item__instant-sell:disabled { border-color: #8e7da4; color: #8e7da4; cursor: default; }
-/* A single replacement for the Sell button: [× Cancel] [label + inline timer] [↑ quick]. */
-.dt-item__selling-panel {
-  display: grid;
-  grid-template-columns: 29px minmax(0, 1fr) 54px;
-  gap: 4px;
-  align-items: stretch;
-  width: 100%;
-  height: var(--dt-item-sale-control-height, 62px);
-  min-height: 0;
-  padding: 5px;
-  border: 1px solid #dcc5f0;
-  border-radius: 9px;
-  background: #bba5d6;
-  color: #30213f;
-  box-shadow: inset 0 1px 0 #eadcf455;
-}
-.dt-item__panel-center {
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: center;
-  gap: 4px;
-  text-align: center;
-}
-.dt-item__panel-label {
-  font: 900 12px/1.14 var(--dt-font, system-ui, sans-serif);
-  font-variant-numeric: tabular-nums;
-  overflow-wrap: normal;
-}
-.dt-item__panel-action {
-  position: relative;
-  display: grid;
-  place-items: center;
+.dt-item--selling .dt-item__sell {
   align-content: center;
-  min-width: 29px;
-  min-height: 0;
-  padding: 3px 5px;
-  border: 1px solid #f8d26b;
-  border-radius: 6px;
-  background: var(--dt-item-yellow);
-  color: #30200d;
-  cursor: pointer;
-  font: 900 11px/1.1 var(--dt-font, system-ui, sans-serif);
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
+  gap: 3px;
+  padding-block: 4px;
+  background: #bba5d6;
+  border-color: #dcc5f0;
+  color: #30213f;
+  font-size: 12px;
 }
-.dt-item__panel-action:hover:not(:disabled) { background: #ffe094; }
-.dt-item__panel-action:disabled {
-  background: #8e7da4;
-  border-color: #9987b0;
-  color: #3c3247;
-  cursor: default;
-}
-.dt-item__cancel { font-size: 22px; }
-.dt-item__quick { padding-inline: 6px; }
+.dt-item--selling .dt-item__sell:hover:not(:disabled) { background: #ccb6e3; }
 .dt-item__progress {
   position: relative;
   isolation: isolate;
@@ -255,25 +209,16 @@
 }
 .dt-item__tooltip--left { left: -1px; top: calc(100% + 9px); }
 .dt-item__tooltip--right { right: -1px; top: calc(100% + 9px); }
-.dt-item__tooltip--quick { right: 0; bottom: calc(100% + 9px); }
 .dt-item__info:hover .dt-item__tooltip,
 .dt-item__info:focus-visible .dt-item__tooltip,
 .dt-item__stack:hover .dt-item__tooltip,
-.dt-item__stack:focus-visible .dt-item__tooltip,
-.dt-item__quick:hover .dt-item__tooltip,
-.dt-item__quick:focus-visible .dt-item__tooltip {
+.dt-item__stack:focus-visible .dt-item__tooltip {
   display: block;
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
 }
 .dt-item :is(button, [tabindex="0"]):focus-visible { outline: 2px solid #fff2b0; outline-offset: 3px; }
-@media (max-width: 630px) {
-  .dt-item__panel-label { font-size: 10px; }
-  .dt-item__quick { padding-inline: 1px; font-size: 10px; }
-  .dt-item__selling-panel { gap: 3px; padding: 4px; grid-template-columns: 26px minmax(0, 1fr) 49px; }
-  .dt-item__panel-action { min-width: 0; }
-}
 @media (prefers-reduced-motion: reduce) {
   .dt-item *, .dt-item *::before, .dt-item *::after { transition: none !important; }
 }

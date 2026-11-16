@@ -27,6 +27,11 @@ function itemDef(itemId: string) {
   return CONFIG.items.find(i => i.id === itemId)!;
 }
 
+function instantSellLabel(goldValue: number): string {
+  const fraction = CONFIG.constants.instantSaleFraction;
+  return `Instant Sale (${fraction * 100}%) · ${Math.floor(goldValue * fraction)}g`;
+}
+
 export function buildStorehouseViewModel(engine: GameEngine, ui: StorehouseUiState): StorehouseViewModel {
   const state = engine.state;
   const upgrades = groupUpgradeFamilies(roomUpgradeDefs('storehouse')).map(family => {
@@ -50,14 +55,12 @@ export function buildStorehouseViewModel(engine: GameEngine, ui: StorehouseUiSta
         status: 'ready',
         sellLabel: `Sell · ${def.baseValueGold * stack.count}g`,
         canSell: true,
-        instantSellLabel: `Instant sale (50%) · ${Math.floor(def.baseValueGold * stack.count * 0.5)}g`,
+        instantSellLabel: instantSellLabel(def.baseValueGold * stack.count),
         canInstantSell: true,
       },
     };
   });
-  // startNormalSale removes the stack the moment a sale begins, so the selling item has to be
-  // rendered from its process (not from state.stacks) or it would simply vanish from the grid
-  // instead of showing the sell button's progress panel.
+  // Active sales hold their stacks in the process until completion or cancellation.
   const sellingItems: ItemComponentViewModel[] = state.processes
     .filter((p): p is SaleProcess => p.type === 'sale')
     .filter(p => matchesFilters(p.itemId))
@@ -72,15 +75,11 @@ export function buildStorehouseViewModel(engine: GameEngine, ui: StorehouseUiSta
         stack: { label: `× ${selling.count}`, tooltip: `${selling.count} of ${def.maxStackSize} in stack` },
         sale: {
           status: 'selling',
-          sellLabel: `Sell for ${selling.goldValue} 🪙`,
+          sellLabel: `Sell · ${selling.goldValue}g`,
           progress: Math.min(1, Math.max(0, (state.hours - selling.startHour) / (selling.endHour - selling.startHour))),
           remainingLabel: fmtHours(Math.max(0, selling.endHour - state.hours)),
-          canCancel: false,
-          canQuickSell: false,
-          quickSellLabel: 'Quick',
-          quickSellTooltip: 'Not available in this prototype',
-          cancelDisabledReason: 'Cannot cancel a sale in progress',
-          quickSellDisabledReason: 'Not available in this prototype',
+          instantSellLabel: instantSellLabel(selling.goldValue),
+          canInstantSell: true,
         },
       };
     });
@@ -138,7 +137,7 @@ export function handleStorehouseAction(engine: GameEngine, ui: StorehouseUiState
       engine.instantSale(action.itemId);
       return;
     case 'cancelSaleRequested':
-    case 'quickSellRequested':
-      return; // Not supported by the engine in this prototype.
+      engine.cancelNormalSale(action.itemId);
+      return;
   }
 }

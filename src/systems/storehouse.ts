@@ -37,12 +37,29 @@ export function startNormalSale(state: GameState, stackId: string, now: number):
 }
 
 export function instantSale(state: GameState, stackId: string): boolean {
-    const stack = state.stacks.find(s => s.id === stackId);
+    const sale = findPendingSale(state, stackId);
+    const stack = sale ?? state.stacks.find(s => s.id === stackId);
     if (!stack) return false;
     const payout = Math.floor(fullStackValue(stack.itemId, stack.count) * CONFIG.constants.instantSaleFraction);
-    state.removeStack(stackId);
+    if (sale) state.processes = state.processes.filter(process => process !== sale);
+    else state.removeStack(stackId);
     creditGold(state, payout);
     state.log(`Instantly sold ${stack.count} ${itemDef(stack.itemId).name} for ${payout} gold.`);
+    return true;
+}
+
+function findPendingSale(state: GameState, stackId: string): SaleProcess | undefined {
+    return state.processes.find(
+        (process): process is SaleProcess => process.type === "sale" && process.stackId === stackId,
+    );
+}
+
+export function cancelNormalSale(state: GameState, stackId: string): boolean {
+    const sale = findPendingSale(state, stackId);
+    if (!sale) return false;
+    state.stacks.push({ id: sale.stackId, itemId: sale.itemId, count: sale.count });
+    state.processes = state.processes.filter(process => process !== sale);
+    state.log(`Sale canceled: returned a stack of ${sale.count} ${itemDef(sale.itemId).name} to storage.`);
     return true;
 }
 

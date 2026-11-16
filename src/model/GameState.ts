@@ -115,7 +115,8 @@ export class GameState {
     }
 
     usedSlots(): number {
-        return this.stacks.length;
+        // Pending sales reserve their slots so cancellation can always return the stacks.
+        return this.stacks.length + this.processes.filter(process => process.type === "sale").length;
     }
 
     incrementalLevel(upgradeId: string): number {

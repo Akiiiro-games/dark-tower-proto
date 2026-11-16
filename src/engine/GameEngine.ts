@@ -4,7 +4,7 @@ import type { Process, RaidProcess, WalkbackProcess } from "../model/types";
 import { realSecondsToGameHours } from "./Clock";
 import { completeRest, completeTreatment, assignBeds } from "../systems/recovery";
 import { completeTraining, startTraining as sysStartTraining } from "../systems/trainingHall";
-import { completeSale, startNormalSale as sysStartNormalSale, instantSale as sysInstantSale } from "../systems/storehouse";
+import { cancelNormalSale, completeSale, startNormalSale as sysStartNormalSale, instantSale as sysInstantSale } from "../systems/storehouse";
 import { completeResearch, startResearch as sysStartResearch } from "../systems/laboratory";
 import { completeUpgrade, purchaseUpgrade as sysPurchaseUpgrade } from "../systems/upgrades";
 import { completeIncrementalUpgrade, purchaseIncremental as sysPurchaseIncremental } from "../systems/incrementalUpgrades";
@@ -141,6 +141,10 @@ export class GameEngine {
 
     startNormalSale(stackId: string): boolean {
         return sysStartNormalSale(this.state, stackId, this.state.hours);
+    }
+
+    cancelNormalSale(stackId: string): boolean {
+        return cancelNormalSale(this.state, stackId);
     }
 
     instantSale(stackId: string): boolean {

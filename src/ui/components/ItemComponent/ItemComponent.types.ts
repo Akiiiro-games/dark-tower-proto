@@ -10,32 +10,26 @@ export interface ItemStackDisplay {
   readonly tooltip: string;
 }
 
-export interface ReadySaleDisplay {
-  readonly status: 'ready';
+interface SaleControlsDisplay {
   readonly sellLabel: string;
-  readonly canSell: boolean;
-  readonly disabledReason?: string;
   /** Immediate sale at a discount (e.g. "Instant sale (50%)"). Omit to hide the affordance entirely. */
   readonly instantSellLabel?: string;
   readonly canInstantSell?: boolean;
   readonly instantSellDisabledReason?: string;
 }
 
-export interface SellingSaleDisplay {
+export interface ReadySaleDisplay extends SaleControlsDisplay {
+  readonly status: 'ready';
+  readonly canSell: boolean;
+  readonly disabledReason?: string;
+}
+
+export interface SellingSaleDisplay extends SaleControlsDisplay {
   readonly status: 'selling';
-  /** Center text inside the lavender sale panel, e.g. "Sell for 24 🪙". */
-  readonly sellLabel: string;
   /** Normalized progress 0..1, provided by the adapter. */
   readonly progress: number;
   /** Short visible timer text rendered OVER the progress track, e.g. "00:19". */
   readonly remainingLabel: string;
-  readonly canCancel: boolean;
-  readonly canQuickSell: boolean;
-  /** Fully formatted price; computed outside this View. */
-  readonly quickSellLabel: string;
-  readonly quickSellTooltip: string;
-  readonly cancelDisabledReason?: string;
-  readonly quickSellDisabledReason?: string;
 }
 
 export type ItemSaleDisplay = ReadySaleDisplay | SellingSaleDisplay;
@@ -56,8 +50,7 @@ export interface ItemComponentViewModel {
 export type ItemComponentAction =
   | Readonly<{ type: 'sellRequested'; itemId: string }>
   | Readonly<{ type: 'instantSellRequested'; itemId: string }>
-  | Readonly<{ type: 'cancelSaleRequested'; itemId: string }>
-  | Readonly<{ type: 'quickSellRequested'; itemId: string }>;
+  | Readonly<{ type: 'cancelSaleRequested'; itemId: string }>;
 
 export type ItemComponentActionHandler = (action: ItemComponentAction) => void;
 
