@@ -204,7 +204,7 @@ Documentation has four main levels:
 3. **Features:** individual mechanics, rules, configurations, and edge cases within those systems.
 4. **Knowledge:** design decisions, playtest findings, and the reasoning behind important changes.
 
-Example structure:
+Example structure (illustrative shape this section describes):
 
 ```text
 README.md
@@ -240,6 +240,30 @@ Documentation/
 │
 └── Playtests/
 ```
+
+**As actually adopted for the current Phase 1 prototype** (this repo's root `readme.md` already
+covers Vision + Roadmap, so no separate `Vision.md`/`Roadmap.md` exist; the per-system `Design/`
+split above is covered by `DarkTowerGameDesign.md` itself plus implementation-facing "Systems"
+docs, not duplicated into separate gameplay-design files):
+
+```text
+readme.md            ← this file (Vision + Roadmap)
+CLAUDE.md
+
+Documentation/
+├── README.md                          ← start here for navigation
+├── DarkTowerGameDesign.md             ← authoritative gameplay rules
+├── Architecture/
+│   ├── CurrentArchitecture.md        ← implemented architecture
+│   ├── ImprovementPlan.md            ← proposed, not-yet-executed
+│   ├── Systems/                      ← one entry point per gameplay system
+│   └── Features/                     ← cross-system flows worth their own page
+├── Workflow/
+│   └── AIDevelopmentWorkflow.md
+└── Decisions/                         ← knowledge level; Playtests/ joins it once one exists
+```
+
+See [`Documentation/README.md`](Documentation/README.md) for the full navigable index.
 
 Guiding principles:
 
