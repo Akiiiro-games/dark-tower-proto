@@ -9,11 +9,7 @@ import type { StorehouseAction, StorehouseViewModel } from './StorehouseViewMode
 const roomImage = asset('storehouse-room.webp');
 
 export interface StorehouseUiState {
-  filterTag: string | null;
-}
-
-export function createStorehouseUiState(): StorehouseUiState {
-  return { filterTag: null };
+  activeTags: Set<string>;
 }
 
 const TAG_OPTIONS: ReadonlyArray<{ id: string; title: string; icon: string }> = [
@@ -22,6 +18,10 @@ const TAG_OPTIONS: ReadonlyArray<{ id: string; title: string; icon: string }> = 
   { id: 'ingridients', title: 'Ingredients', icon: '🌿' },
   { id: 'weapons', title: 'Weapons', icon: '🗡️' },
 ];
+
+export function createStorehouseUiState(): StorehouseUiState {
+  return { activeTags: new Set(TAG_OPTIONS.map(tag => tag.id)) };
+}
 
 function itemDef(itemId: string) {
   return CONFIG.items.find(i => i.id === itemId)!;
@@ -35,8 +35,9 @@ export function buildStorehouseViewModel(engine: GameEngine, ui: StorehouseUiSta
     return buildUpgradeLineViewModel(state, family, icon, title);
   });
 
-  const allStacks = state.stacks.filter(s => !ui.filterTag || itemDef(s.itemId).tags.includes(ui.filterTag));
-  const readyItems: ItemComponentViewModel[] = allStacks.map(stack => {
+  const allTagsActive = TAG_OPTIONS.every(tag => ui.activeTags.has(tag.id));
+  const matchesFilters = (itemId: string) => itemDef(itemId).tags.some(tag => ui.activeTags.has(tag));
+  const readyItems: ItemComponentViewModel[] = state.stacks.filter(stack => matchesFilters(stack.itemId)).map(stack => {
     const def = itemDef(stack.itemId);
     return {
       id: stack.id,
@@ -59,7 +60,7 @@ export function buildStorehouseViewModel(engine: GameEngine, ui: StorehouseUiSta
   // instead of showing the sell button's progress panel.
   const sellingItems: ItemComponentViewModel[] = state.processes
     .filter((p): p is SaleProcess => p.type === 'sale')
-    .filter(p => !ui.filterTag || itemDef(p.itemId).tags.includes(ui.filterTag))
+    .filter(p => matchesFilters(p.itemId))
     .map(selling => {
       const def = itemDef(selling.itemId);
       return {
@@ -83,7 +84,10 @@ export function buildStorehouseViewModel(engine: GameEngine, ui: StorehouseUiSta
         },
       };
     });
-  const items: ItemComponentViewModel[] = [...readyItems, ...sellingItems];
+  // Inventory stacks are appended with increasing stack IDs, which sale cards retain.
+  const items = [...readyItems, ...sellingItems].sort(
+    (a, b) => Number(a.id.slice('stack_'.length)) - Number(b.id.slice('stack_'.length)),
+  );
 
   return {
     room: {
@@ -99,13 +103,13 @@ export function buildStorehouseViewModel(engine: GameEngine, ui: StorehouseUiSta
     upgrades,
     filters: {
       options: [
-        { id: 'all', title: 'All', icon: '📦', active: !ui.filterTag },
-        ...TAG_OPTIONS.map(t => ({ ...t, active: ui.filterTag === t.id })),
+        { id: 'all', title: 'All', icon: '📦', active: allTagsActive },
+        ...TAG_OPTIONS.map(t => ({ ...t, active: ui.activeTags.has(t.id) })),
       ],
     },
     items,
     inventoryLabel: `${items.length} stack${items.length === 1 ? '' : 's'}`,
-    emptyMessage: ui.filterTag ? 'No items match this filter.' : 'Nothing stored yet. Raid the world map to bring back loot.',
+    emptyMessage: allTagsActive ? 'Nothing stored yet. Raid the world map to bring back loot.' : 'No items match the selected filters.',
   };
 }
 
@@ -119,7 +123,13 @@ export function handleStorehouseAction(engine: GameEngine, ui: StorehouseUiState
       return;
     }
     case 'filterToggled':
-      ui.filterTag = ui.filterTag === action.tag ? null : (action.tag === 'all' ? null : action.tag);
+      if (action.tag === 'all') {
+        for (const tag of TAG_OPTIONS) ui.activeTags.add(tag.id);
+      } else if (ui.activeTags.has(action.tag)) {
+        ui.activeTags.delete(action.tag);
+      } else if (TAG_OPTIONS.some(tag => tag.id === action.tag)) {
+        ui.activeTags.add(action.tag);
+      }
       return;
     case 'sellRequested':
       engine.startNormalSale(action.itemId);
