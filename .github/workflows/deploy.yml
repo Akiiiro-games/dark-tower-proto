@@ -3,7 +3,7 @@ name: Deploy Dark Tower Prototype
 
 on:
   push:
-    branches: [main]
+    branches: [master]
   workflow_dispatch:
 
 permissions:
