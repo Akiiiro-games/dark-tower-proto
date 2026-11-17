@@ -29,12 +29,12 @@ export function mountStorehouseView(
       <section class="dt-storehouse__upper" aria-label="Room information and upgrades">
         <div class="dt-storehouse__room"></div>
         <section class="dt-storehouse__upgrades" aria-label="Upgrades">
+          <div class="dt-storehouse__upgrade-caption">Upgrades</div>
           <button class="dt-storehouse__scroll-arrow dt-storehouse__scroll-arrow--left" type="button" aria-label="Scroll upgrades left">‹</button>
           <div class="dt-storehouse__upgrade-viewport" tabindex="0" aria-label="Horizontal list of Storehouse upgrades">
             <div class="dt-storehouse__upgrade-track"></div>
           </div>
           <button class="dt-storehouse__scroll-arrow dt-storehouse__scroll-arrow--right" type="button" aria-label="Scroll upgrades right">›</button>
-          <div class="dt-storehouse__upgrade-dots" aria-hidden="true"><span></span><span></span><span></span></div>
         </section>
       </section>
       <section class="dt-storehouse__inventory" aria-label="Stored items">
@@ -64,7 +64,6 @@ export function mountStorehouseView(
   const inventoryCount = required<HTMLElement>('.dt-storehouse__inventory-count');
   const emptyEl = required<HTMLElement>('.dt-storehouse__empty');
   const emptyText = required<HTMLElement>('.dt-storehouse__empty p');
-  const dots = Array.from(root.querySelectorAll<HTMLElement>('.dt-storehouse__upgrade-dots span'));
   const prev = required<HTMLButtonElement>('.dt-storehouse__scroll-arrow--left');
   const next = required<HTMLButtonElement>('.dt-storehouse__scroll-arrow--right');
   const room = mountRoomOverviewCard(roomEl, initial.room, { variant: 'embedded' });
@@ -79,9 +78,8 @@ export function mountStorehouseView(
     const end = Math.max(0, upgradesViewport.scrollWidth - upgradesViewport.clientWidth);
     prev.disabled = upgradesViewport.scrollLeft <= 2;
     next.disabled = upgradesViewport.scrollLeft >= end - 2;
-    const proportion = end === 0 ? 0 : upgradesViewport.scrollLeft / end;
-    dots.forEach((dot, index) => dot.classList.toggle('dt-storehouse__dot--active',
-      index === (end === 0 ? 0 : Math.min(dots.length - 1, Math.round(proportion * (dots.length - 1))))));
+    prev.hidden = upgradeCards.size <= 5;
+    next.hidden = upgradeCards.size <= 5;
   }
   function scrollUpgrades(dir: 1 | -1): void {
     upgradesViewport.scrollBy({ left: dir * Math.min(500, upgradesViewport.clientWidth * 0.8), behavior: 'smooth' });

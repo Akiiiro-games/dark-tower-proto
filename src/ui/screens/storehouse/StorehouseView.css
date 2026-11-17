@@ -53,9 +53,9 @@
 .dt-storehouse__scroll-arrow:disabled { color:#69505c; border-color:#54364b; cursor:default; }
 .dt-storehouse__scroll-arrow--left { left:7px; }
 .dt-storehouse__scroll-arrow--right { right:7px; }
-.dt-storehouse__upgrade-dots { position:absolute; display:flex; gap:8px; bottom:10px; left:50%; transform:translateX(-50%); }
-.dt-storehouse__upgrade-dots span { height:9px; width:9px; border-radius:50%; background:#57384f; }
-.dt-storehouse__upgrade-dots .dt-storehouse__dot--active { background:#ffc64f; box-shadow:0 0 9px #eaa33faa; }
+
+
+
 .dt-storehouse__inventory { display:flex; flex-direction:column; flex:1 1 auto; min-height:0; }
 .dt-storehouse__filters { flex:0 0 auto; min-height:59px; padding:2px 4px; margin-bottom:5px; border-bottom:1px solid #80537285; }
 .dt-storehouse__inventory-frame { display:flex; flex-direction:column; flex:1 1 auto; min-height:0; overflow:hidden; background:transparent; }
@@ -69,10 +69,10 @@
 .dt-storehouse__item-slot { min-width:0; }
 .dt-storehouse__item-slot .dt-item { --dt-item-sale-control-height:55px; }
 .dt-storehouse__item-slot .dt-item__tile { border-color:#975578; border-radius:10px; background:radial-gradient(ellipse at 50% 40%,#42263d 0%,#2d1c32 60%,#23182a 100%); }
-.dt-storehouse__item-slot .dt-item__info { background:#39263e; color:#e2b7d6; border-color:#d4a2c4; }
-.dt-storehouse__item-slot .dt-item__info:hover { background:#5b3a56; }
+.dt-storehouse__upgrade-slot .dt-upgrade__info, .dt-storehouse__item-slot .dt-item__info { background:#39263e; color:#e2b7d6; border-color:#d4a2c4; }
+.dt-storehouse__upgrade-slot .dt-upgrade__info:hover, .dt-storehouse__item-slot .dt-item__info:hover { background:#5b3a56; }
 .dt-storehouse__item-slot .dt-item__stack { top:6px; right:7px; min-height:22px; padding:2px 6px; border-color:#744a67; border-radius:999px; background:#1c1220dc; font-size:12px; }
-.dt-storehouse__item-slot .dt-item__info { top:7px; left:7px; width:23px; height:23px; font-size:14px; }
+.dt-storehouse__upgrade-slot .dt-upgrade__info, .dt-storehouse__item-slot .dt-item__info { top:7px; left:7px; width:23px; height:23px; font-size:14px; }
 .dt-storehouse__item-slot .dt-item__name { font: 700 14px/1.2 'Trebuchet MS',sans-serif; bottom:9px; }
 .dt-storehouse__item-slot .dt-item__emoji { font-size:clamp(42px,4.2vw,72px); }
 .dt-storehouse__item-slot .dt-item__sale-area { padding-top:7px; }
@@ -89,7 +89,7 @@
 .dt-storehouse__empty p { margin:0; max-width:400px; color:#ac92aa; line-height:1.5; }
 .dt-storehouse--busy { cursor:wait; }
 @media(max-width:1050px) { .dt-storehouse__upper { grid-template-columns: 250px minmax(0,1fr); flex-basis:255px; gap:13px; } .dt-storehouse__upgrade-slot { flex-basis:175px; } .dt-storehouse__upgrades { padding-inline:35px; } .dt-storehouse__items { grid-template-columns:repeat(auto-fill,minmax(min(150px,100%),1fr)); } }
-@media(max-width:720px) { .dt-storehouse { height:100dvh; min-height:620px; } .dt-storehouse__shell { padding:9px 12px 12px; gap:9px; } .dt-storehouse__topbar { flex-basis:42px; } .dt-storehouse__back { width:47px; height:40px; font-size:30px; } .dt-storehouse__upper { flex-basis:220px; grid-template-columns:170px minmax(0,1fr); gap:8px; } .dt-storehouse__room .dt-room-card__art { flex-basis:43%; } .dt-storehouse__room .dt-room-card__details { padding:0 7px 8px; } .dt-storehouse__room .dt-room-card__name { font-size:18px; } .dt-storehouse__room .dt-room-card__name::before,.dt-storehouse__room .dt-room-card__name::after { margin:0 4px; font-size:8px; } .dt-storehouse__room .dt-room-card__stat { grid-template-columns:20px minmax(0,1fr); gap:2px; padding:1px 0; font-size:10px; } .dt-storehouse__room .dt-room-card__stat-icon { grid-row:span 2; font-size:14px; } .dt-storehouse__room .dt-room-card__stat-value { grid-column:2; font-size:11px; } .dt-storehouse__upgrades { padding:8px 24px 22px; } .dt-storehouse__upgrade-slot { flex-basis:155px; } .dt-storehouse__scroll-arrow { width:20px; height:44px; font-size:26px; } .dt-storehouse__scroll-arrow--left {left:2px;} .dt-storehouse__scroll-arrow--right {right:2px;} .dt-storehouse__upgrade-dots { bottom:5px; } .dt-storehouse__filters { min-height:50px; padding:1px 5px; margin-bottom:7px; } .dt-storehouse__items { grid-template-columns:repeat(2,minmax(0,1fr)); gap:13px 8px; } .dt-storehouse__inventory-viewport { padding:4px 9px 14px; } .dt-storehouse__inventory-topline { padding:7px 12px 5px; font-size:10px; } }
+@media(max-width:720px) { .dt-storehouse { height:100dvh; min-height:620px; } .dt-storehouse__shell { padding:9px 12px 12px; gap:9px; } .dt-storehouse__topbar { flex-basis:42px; } .dt-storehouse__back { width:47px; height:40px; font-size:30px; } .dt-storehouse__upper { flex-basis:220px; grid-template-columns:170px minmax(0,1fr); gap:8px; } .dt-storehouse__room .dt-room-card__art { flex-basis:43%; } .dt-storehouse__room .dt-room-card__details { padding:0 7px 8px; } .dt-storehouse__room .dt-room-card__name { font-size:18px; } .dt-storehouse__room .dt-room-card__name::before,.dt-storehouse__room .dt-room-card__name::after { margin:0 4px; font-size:8px; } .dt-storehouse__room .dt-room-card__stat { grid-template-columns:20px minmax(0,1fr); gap:2px; padding:1px 0; font-size:10px; } .dt-storehouse__room .dt-room-card__stat-icon { grid-row:span 2; font-size:14px; } .dt-storehouse__room .dt-room-card__stat-value { grid-column:2; font-size:11px; } .dt-storehouse__upgrades { padding:8px 24px 22px; } .dt-storehouse__upgrade-slot { flex-basis:155px; } .dt-storehouse__scroll-arrow { width:20px; height:44px; font-size:26px; } .dt-storehouse__scroll-arrow--left {left:2px;} .dt-storehouse__scroll-arrow--right {right:2px;}  .dt-storehouse__filters { min-height:50px; padding:1px 5px; margin-bottom:7px; } .dt-storehouse__items { grid-template-columns:repeat(2,minmax(0,1fr)); gap:13px 8px; } .dt-storehouse__inventory-viewport { padding:4px 9px 14px; } .dt-storehouse__inventory-topline { padding:7px 12px 5px; font-size:10px; } }
 @media(max-width:400px) { .dt-storehouse__upper { grid-template-columns:140px minmax(0,1fr); flex-basis:204px; } .dt-storehouse__room .dt-room-card__name { font-size:16px; } .dt-storehouse__upgrade-slot { flex-basis:145px; } }
 @media(max-height:700px) and (min-width:721px) { .dt-storehouse__upper { flex-basis:240px; } .dt-storehouse__topbar { flex-basis:39px; } .dt-storehouse__shell { gap:8px; } }
 @media(prefers-reduced-motion:reduce) { .dt-storehouse *, .dt-storehouse *::before, .dt-storehouse *::after { scroll-behavior:auto!important; transition:none!important; } }
@@ -129,3 +129,8 @@
   .dt-storehouse__topbar { flex-basis:42px; }
   .dt-storehouse__window { gap:8px; }
 }
+
+.dt-storehouse__upgrades { flex-direction:column; padding-top:7px; padding-bottom:8px; }
+.dt-storehouse__upgrade-caption { align-self:stretch; flex:0 0 auto; padding:0 0 7px; color:#ccaece; text-transform:uppercase; letter-spacing:.12em; font-size:12px; font-weight:700; }
+.dt-storehouse__upgrade-viewport { flex:1; min-height:0; }
+.dt-storehouse__scroll-arrow[hidden] { display:none!important; }

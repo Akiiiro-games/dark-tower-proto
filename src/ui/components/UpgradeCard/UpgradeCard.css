@@ -22,3 +22,16 @@
 .dt-upgrade__button:disabled { cursor: default; color: #d8c8df; border-color: #8e7a98; background: #786786; box-shadow: none; }
 .dt-upgrade__status { font: 600 11px/1.2 'Trebuchet MS', sans-serif; color: #dbbdd8; margin-top: 7px; min-height: 13px; }
 .dt-upgrade__status:empty { display: none; }
+
+.dt-upgrade { position:relative; }
+.dt-upgrade [hidden] { display:none!important; }
+.dt-upgrade__button { display:grid; gap:4px; }
+.dt-upgrade__progress { position:relative; display:block; height:15px; overflow:hidden; border:1px solid #716183; border-radius:999px; background:#59476d; }
+.dt-upgrade__fill { position:absolute; inset:0 auto 0 0; background:#eee0fc; }
+.dt-upgrade__remaining { position:relative; display:block; color:#fff7ff; text-shadow:0 1px 2px #24162d,1px 0 2px #24162d; font:800 10px/13px system-ui; }
+
+.dt-upgrade:hover, .dt-upgrade:focus-within { z-index:3; }
+.dt-upgrade__info:focus-visible { outline:2px solid #fff2b0; outline-offset:3px; }
+@media (prefers-reduced-motion: reduce) {
+  .dt-upgrade__description { transition:none!important; }
+}

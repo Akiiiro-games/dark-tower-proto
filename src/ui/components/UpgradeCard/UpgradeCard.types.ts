@@ -2,6 +2,9 @@ export interface UpgradeCardViewModel {
   readonly id: string;
   readonly icon: string;
   readonly title: string;
+  readonly description?: string;
+  readonly progress?: number;
+  readonly remainingLabel?: string;
   readonly currentLevel: string;
   readonly nextLevel: string;
   readonly currentEffect: string;

@@ -52,6 +52,7 @@ export function buildUpgradeLineViewModel(
   const next = family[ownedCount] as UpgradeDef | undefined;
   const current = family[ownedCount - 1] as UpgradeDef | undefined;
   const inProgress = next ? isUpgradeInProgress(state, next.id) : false;
+  const process = state.processes.find(p => p.type === 'upgrade' && p.upgradeId === next?.id);
   const canUpgrade = !!next && !inProgress && canPurchaseUpgrade(state, next.id);
 
   let disabledReason: string | undefined;
@@ -65,14 +66,17 @@ export function buildUpgradeLineViewModel(
     id: family[0].id.replace(/_\d+$/, ''),
     icon,
     title,
+    description: (next ?? current ?? family[0]).description,
+    progress: process ? Math.min(1, Math.max(0, (state.hours - process.startHour) / (process.endHour - process.startHour))) : undefined,
+    remainingLabel: process ? fmtHours(Math.max(0, process.endHour - state.hours)) : undefined,
     currentLevel: current ? `Lv.${ownedCount}` : 'Lv.0',
     nextLevel: next ? `Lv.${ownedCount + 1}` : 'MAX',
     currentEffect: current ? effectLabel(current.effect) : '—',
     nextEffect: next ? effectLabel(next.effect) : effectLabel(family[family.length - 1].effect),
-    buttonLabel: next ? (inProgress ? 'Building…' : `Build · ${next.costGold}g · ${fmtHours(next.durationHours)}`) : 'Maxed',
+    buttonLabel: next ? (inProgress ? 'Upgrade' : `Upgrade · 🪙 ${next.costGold} · ⏳ ${fmtHours(next.durationHours)}`) : 'Maxed',
     canUpgrade,
     disabledReason,
-    statusText,
+    statusText: inProgress ? undefined : statusText,
   };
 }
 
@@ -83,6 +87,7 @@ export function buildUpgradeLineViewModel(
 export function buildIncrementalUpgradeViewModel(state: GameState, def: IncrementalUpgradeDef, icon: string): UpgradeCardViewModel {
   const level = state.incrementalLevel(def.id);
   const inProgress = isIncrementalInProgress(state, def.id);
+  const process = state.processes.find(p => p.type === 'incrementalUpgrade' && p.upgradeId === def.id);
   const canUpgrade = !inProgress && canPurchaseIncremental(state, def.id);
   const cost = nextCost(def.id, level);
   const duration = nextDuration(def.id, level);
@@ -96,14 +101,17 @@ export function buildIncrementalUpgradeViewModel(state: GameState, def: Incremen
     id: def.id,
     icon,
     title: def.name,
+    description: def.description,
+    progress: process ? Math.min(1, Math.max(0, (state.hours - process.startHour) / (process.endHour - process.startHour))) : undefined,
+    remainingLabel: process ? fmtHours(Math.max(0, process.endHour - state.hours)) : undefined,
     currentLevel: `Lv.${level}`,
     nextLevel: `Lv.${level + 1}`,
     currentEffect: level === 0 ? '—' : `${level} built`,
     nextEffect: `${level + 1} built`,
-    buttonLabel: inProgress ? 'Building…' : `Build · ${cost}g · ${fmtHours(duration)}`,
+    buttonLabel: inProgress ? 'Upgrade' : `Upgrade · 🪙 ${cost} · ⏳ ${fmtHours(duration)}`,
     canUpgrade,
     disabledReason,
-    statusText,
+    statusText: inProgress ? undefined : statusText,
   };
 }
 
