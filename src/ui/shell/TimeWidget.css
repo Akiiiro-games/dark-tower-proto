@@ -41,26 +41,42 @@
 .tw-main { display: flex; align-items: center; gap: 16px; }
 .tw-clock { position: relative; width: 120px; height: 120px; flex: none; }
 .tw-clock-svg { display: block; width: 120px; height: 120px; pointer-events: none; }
+.tw-hour-marker { fill: var(--dt-purple-soft); }
+/* The outgoing icon settles down as the incoming one gently rises into place. */
+.tw-sun, .tw-moon {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: opacity 450ms ease, transform 650ms cubic-bezier(.22, 1, .36, 1);
+}
+.tw-sun { opacity: 0; transform: translateY(14px) rotate(-25deg) scale(.8); }
+.tw-moon { opacity: 1; transform: translateY(0) rotate(0deg) scale(1); }
+.is-daytime .tw-sun { opacity: 1; transform: translateY(0) rotate(0deg) scale(1); }
+.is-daytime .tw-moon { opacity: 0; transform: translateY(14px) rotate(20deg) scale(.8); }
+@media (prefers-reduced-motion: reduce) {
+  .tw-sun, .tw-moon { transition: none; }
+}
 .tw-clock-time {
   position: absolute;
-  left: 24px;
-  right: 24px;
-  bottom: 8px;
+  left: 20px;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
   text-align: center;
-  border-radius: 4px;
-  background: #1c252a;
   color: #f7e9d4;
-  padding: 3px 0;
-  font-size: 14px;
+  font-size: 22px;
   font-variant-numeric: tabular-nums;
 }
 .tw-summary { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 17px; }
-.tw-heading { display: flex; align-items: baseline; gap: 6px; white-space: nowrap; }
-.tw-heading strong { font-size: 25px; color: var(--dt-accent); }
+.tw-heading { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 6px; white-space: nowrap; font-size: 18.2px; }
+.tw-heading strong { font-size: 32.5px; color: var(--dt-accent); }
+.tw-day-progress { appearance: none; display: block; width: 100%; height: 3px; margin-top: 5px; border: 0; border-radius: 2px; overflow: hidden; background: var(--dt-border); }
+.tw-day-progress::-webkit-progress-bar { background: var(--dt-border); }
+.tw-day-progress::-webkit-progress-value { background: var(--dt-accent); }
+.tw-day-progress::-moz-progress-bar { background: var(--dt-accent); }
 .tw-weekday { font-size: 12px; font-weight: 500; color: var(--dt-muted); }
 .tw-weekday::before { content: '('; }
 .tw-weekday::after { content: ')'; }
-.tw-weekdays { display: flex; gap: 4px; }
+.tw-weekdays { display: flex; gap: 4px; padding-top: 3px; padding-bottom: 7px; }
 .tw-day-cell {
   width: 20px;
   height: 23px;
@@ -72,15 +88,17 @@
   font-size: 10px;
   position: relative;
 }
-.tw-day-cell.is-payday { box-shadow: inset 0 0 0 2px var(--dt-accent); }
+.tw-payday-icon { position: absolute; width: 18px; height: 15px; bottom: calc(100% + 3px); left: 50%; transform: translateX(-50%); color: var(--dt-accent); }
 .tw-day-cell.is-current { background: var(--dt-accent); color: var(--dt-accent-ink); font-weight: 800; }
 .tw-day-cell.is-current::after {
   content: '';
   position: absolute;
-  top: -7px;
+  bottom: -7px;
+  left: 50%;
+  transform: translateX(-50%);
   border-left: 4px solid transparent;
   border-right: 4px solid transparent;
-  border-top: 5px solid var(--dt-accent);
+  border-bottom: 5px solid var(--dt-accent);
 }
 .tw-week-number { display: flex; align-items: center; gap: 7px; color: var(--dt-muted); }
 .tw-week-number strong { color: var(--dt-accent); font-size: 21px; }

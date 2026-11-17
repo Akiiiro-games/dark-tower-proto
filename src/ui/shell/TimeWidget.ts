@@ -15,12 +15,13 @@ const foldIcon = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 
 const calendarIcon = '<svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="5" width="14" height="12" rx="1"/><path d="M6 3v4M14 3v4M3 9h14M7 12h2M11 12h2"/></svg>';
 const pauseIcon = '<svg viewBox="0 0 20 20" aria-hidden="true"><rect x="5" y="4" width="3.5" height="12" rx=".5"/><rect x="11.5" y="4" width="3.5" height="12" rx=".5"/></svg>';
 const playIcon = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6 3.5L16 10 6 16.5z"/></svg>';
+const crownIcon = '<svg class="tw-payday-icon" viewBox="0 0 24 20" aria-hidden="true"><path d="M3 5l5 4 4-7 4 7 5-4-2 10H5zM5 17h14v2H5z" fill="currentColor"/></svg>';
 
 function makeDayCells(): string {
   const initials = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
   return initials.map((letter, index) => {
     const monday = index === 0;
-    return `<span class="tw-day-cell${monday ? ' is-payday' : ''}" data-day="${index + 1}" title="${DAYS[index]}${monday ? ' — Payday' : ''}" aria-label="${DAYS[index]}${monday ? ', Payday' : ''}">${letter}</span>`;
+    return `<span class="tw-day-cell" data-day="${index + 1}" title="${DAYS[index]}${monday ? ' — Payday' : ''}" aria-label="${DAYS[index]}${monday ? ', Payday' : ''}">${monday ? crownIcon : ''}${letter}</span>`;
   }).join('');
 }
 
@@ -32,25 +33,27 @@ function makeSpeedButtons(): string {
 
 const dialMarkup = `
   <svg class="tw-clock-svg" viewBox="0 0 120 120" role="img" aria-label="Time-of-day dial">
-    <circle cx="60" cy="60" r="55" fill="#425d6c"/>
-    <path d="M60 5 A55 55 0 0 1 60 115 L60 60 Z" fill="#eebf59"/>
-    <circle cx="60" cy="60" r="40" fill="#29333b"/>
+    <circle cx="60" cy="60" r="55" fill="#29333b"/>
+    <circle cx="60" cy="60" r="50" fill="none" stroke="#42505a" stroke-width="10"/>
+    <circle class="tw-clock-progress" cx="60" cy="60" r="50" fill="none" stroke="#eebf59" stroke-width="10" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" transform="rotate(-90 60 60)"/>
+    <g transform="translate(60 83) scale(.4) translate(-60 -60)">
     <g class="tw-sun" stroke="#f6c85f" stroke-width="3.5" stroke-linecap="round">
       <circle cx="60" cy="60" r="11" fill="#f6c85f" stroke="none"/>
       <path d="M60 37v9M60 74v9M37 60h9M74 60h9M44 44l6 6M70 70l6 6M76 44l-6 6M50 70l-6 6"/>
     </g>
-    <g class="tw-moon" fill="#e6d8b5" style="display:none">
+    <g class="tw-moon" fill="#e6d8b5">
       <path d="M70 42a20 20 0 1 0 8 33A21 21 0 0 1 70 42z"/>
     </g>
+    </g>
     <g class="tw-hour-marker">
-      <path d="M60 9L54 20h12z" fill="#f7e5b8"/>
+      <path d="M60 9L54 20h12z" transform="translate(60 14.5) scale(1.1) translate(-60 -14.5)"/>
     </g>
   </svg>`;
 
 export function mountTimeWidget(host: HTMLElement, initial: Readonly<TimeWidgetViewModel>, onAction: TimeWidgetActionHandler = () => {}): TimeWidgetHandle {
   const abort = new AbortController();
   host.innerHTML = `
-    <section class="tw-widget" aria-label="Game time">
+    <section class="tw-widget${initial.hour >= 12 ? ' is-daytime' : ''}" aria-label="Game time">
       <div class="tw-expanded">
         <button class="tw-fold" type="button" data-action="toggleExpanded" aria-label="Collapse time widget" aria-expanded="true">
           ${foldIcon}
@@ -61,7 +64,10 @@ export function mountTimeWidget(host: HTMLElement, initial: Readonly<TimeWidgetV
             <span class="tw-clock-time" data-role="time">13:00</span>
           </div>
           <div class="tw-summary">
-            <div class="tw-heading"><span>Day <strong data-role="day">6</strong></span><span class="tw-weekday" data-role="weekday">Saturday</span></div>
+            <div class="tw-day-summary">
+              <div class="tw-heading"><span>Day <strong data-role="day">6</strong></span><span class="tw-weekday" data-role="weekday">Saturday</span></div>
+              <progress class="tw-day-progress" max="1440" value="0" aria-label="Day elapsed"></progress>
+            </div>
             <div class="tw-weekdays" aria-label="Weekdays, Monday is payday">${makeDayCells()}</div>
             <div class="tw-week-number">${calendarIcon}<span>Week <strong data-role="week">5</strong></span></div>
           </div>
@@ -124,10 +130,17 @@ export function mountTimeWidget(host: HTMLElement, initial: Readonly<TimeWidgetV
     const speedButton = element.querySelector<HTMLButtonElement>('.tw-current-speed')!;
     speedButton.textContent = `${speed}x`;
     speedButton.setAttribute('aria-label', `Current speed ${speed} times. Click to cycle speed.`);
-    const isDaytime = hour >= 6 && hour < 18;
-    (element.querySelector<HTMLElement>('.tw-sun')!).style.display = isDaytime ? '' : 'none';
-    (element.querySelector<HTMLElement>('.tw-moon')!).style.display = isDaytime ? 'none' : '';
-    element.querySelector<SVGGElement>('.tw-hour-marker')!.setAttribute('transform', `rotate(${((hour * 60 + minute) / 1440) * 360} 60 60)`);
+    const isDaytime = hour >= 12;
+    element.classList.toggle('is-daytime', isDaytime);
+    element.querySelector<SVGSVGElement>('.tw-clock-svg')!.setAttribute('aria-label', `${time}, ${isDaytime ? 'daytime' : 'nighttime'}`);
+    const elapsedMinutes = hour * 60 + minute;
+    // A watch face repeats every 12 hours; the separate day bar spans all 24.
+    const dialProgress = (elapsedMinutes % 720) / 720;
+    element.querySelector<SVGCircleElement>('.tw-clock-progress')!.setAttribute('stroke-dashoffset', String(1 - dialProgress));
+    element.querySelector<SVGGElement>('.tw-hour-marker')!.setAttribute('transform', `rotate(${dialProgress * 360} 60 60)`);
+    const dayProgress = element.querySelector<HTMLProgressElement>('.tw-day-progress')!;
+    dayProgress.value = elapsedMinutes;
+    dayProgress.setAttribute('aria-valuetext', `${time} of 24:00`);
   }
 
   setModel(initial);
