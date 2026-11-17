@@ -1,11 +1,8 @@
 import { CONFIG } from '../../../data/config';
 import type { GameEngine } from '../../../engine/GameEngine';
-import type { GameState } from '../../../model/GameState';
-import type { UpgradeDef } from '../../../data/types';
-import { canPurchaseUpgrade, isUpgradeInProgress } from '../../../systems/upgrades';
 import { asset } from '../assets';
-import { effectLabel, fmtHours, groupUpgradeFamilies, roomUpgradeDefs } from '../shared';
-import type { LaboratoryAction, LaboratoryResearchViewModel, LaboratoryUpgradeViewModel, LaboratoryViewModel } from './LaboratoryViewModel';
+import { buildUpgradeLineViewModel, fmtHours, groupUpgradeFamilies, roomUpgradeDefs } from '../shared';
+import type { LaboratoryAction, LaboratoryResearchViewModel, LaboratoryViewModel } from './LaboratoryViewModel';
 
 const roomImage = asset('laboratory-room.png');
 const ICON_TIER = asset('icon-tier2.png');
@@ -19,38 +16,15 @@ const RESEARCH_ICONS: Record<string, string> = {
 };
 const DEFAULT_RESEARCH_ICON = asset('icon-loot.png');
 
-function buildLabUpgrade(state: GameState, family: readonly UpgradeDef[], icon: string, title: string): LaboratoryUpgradeViewModel {
-  const ownedCount = family.filter(d => state.purchasedUpgrades.has(d.id)).length;
-  const next = family[ownedCount] as UpgradeDef | undefined;
-  const current = family[ownedCount - 1] as UpgradeDef | undefined;
-  const inProgress = next ? isUpgradeInProgress(state, next.id) : false;
-  const canUpgrade = !!next && !inProgress && canPurchaseUpgrade(state, next.id);
-
-  let hint: string | undefined;
-  if (!next) hint = 'Maxed';
-  else if (inProgress) hint = 'Under construction';
-  else if (state.gold < next.costGold) hint = `Need ${next.costGold}g`;
-  else if (!next.requires.every(id => state.purchasedUpgrades.has(id))) hint = 'Requires prior tier';
-
-  return {
-    id: family[0].id.replace(/_\d+$/, ''),
-    title,
-    icon,
-    levelText: next ? `Lv.${ownedCount} → Lv.${ownedCount + 1}` : `Lv.${ownedCount} (Max)`,
-    effectText: next ? effectLabel(next.effect) : current ? effectLabel(current.effect) : '—',
-    costText: next ? `${next.costGold}g` : '',
-    actionLabel: !next ? 'Maxed' : inProgress ? 'Building…' : 'Build',
-    actionEnabled: canUpgrade,
-    hint,
-  };
-}
-
 export function buildLaboratoryViewModel(engine: GameEngine): LaboratoryViewModel {
   const state = engine.state;
 
   const upgrades = groupUpgradeFamilies(roomUpgradeDefs('laboratory')).map(family => {
     const isTierFamily = family[0].effect.type === 'researchTier';
-    return buildLabUpgrade(state, family, isTierFamily ? ICON_TIER : ICON_EFFICIENCY, isTierFamily ? 'Research Tier Unlock' : 'Research Efficiency');
+    return {
+      ...buildUpgradeLineViewModel(state, family, '', isTierFamily ? 'Research Tier Unlock' : 'Research Efficiency'),
+      iconSrc: isTierFamily ? ICON_TIER : ICON_EFFICIENCY,
+    };
   });
 
   const research: LaboratoryResearchViewModel[] = CONFIG.research.map(def => {

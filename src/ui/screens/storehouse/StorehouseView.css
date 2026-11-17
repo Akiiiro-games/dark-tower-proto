@@ -70,10 +70,10 @@
 .dt-storehouse__item-slot { min-width:0; }
 .dt-storehouse__item-slot .dt-item { --dt-item-sale-control-height:55px; }
 .dt-storehouse__item-slot .dt-item__tile { border-color:#975578; border-radius:10px; background:radial-gradient(ellipse at 50% 40%,#42263d 0%,#2d1c32 60%,#23182a 100%); }
-.dt-storehouse__upgrade-slot .dt-upgrade__info, .dt-storehouse__item-slot .dt-item__info { background:#39263e; color:#e2b7d6; border-color:#d4a2c4; }
-.dt-storehouse__upgrade-slot .dt-upgrade__info:hover, .dt-storehouse__item-slot .dt-item__info:hover { background:#5b3a56; }
+.dt-storehouse__item-slot .dt-item__info { background:#39263e; color:#e2b7d6; border-color:#d4a2c4; }
+.dt-storehouse__item-slot .dt-item__info:hover { background:#5b3a56; }
 .dt-storehouse__item-slot .dt-item__stack { top:6px; right:7px; min-height:22px; padding:2px 6px; border-color:#744a67; border-radius:999px; background:#1c1220dc; font-size:12px; }
-.dt-storehouse__upgrade-slot .dt-upgrade__info, .dt-storehouse__item-slot .dt-item__info { top:7px; left:7px; width:23px; height:23px; font-size:14px; }
+.dt-storehouse__item-slot .dt-item__info { top:7px; left:7px; width:23px; height:23px; font-size:14px; }
 .dt-storehouse__item-slot .dt-item__name { font: 700 14px/1.2 'Trebuchet MS',sans-serif; bottom:9px; }
 .dt-storehouse__item-slot .dt-item__emoji { font-size:clamp(42px,4.2vw,72px); }
 .dt-storehouse__item-slot .dt-item__sale-area { padding-top:7px; }
@@ -94,18 +94,6 @@
 @media(max-width:400px) { .dt-storehouse__upper { grid-template-columns:140px minmax(0,1fr); min-height:204px; } .dt-storehouse__room .dt-room-card__name { font-size:16px; } .dt-storehouse__upgrade-slot { flex-basis:145px; } }
 @media(max-height:700px) and (min-width:721px) { .dt-storehouse__upper { min-height:240px; } .dt-storehouse__topbar { flex-basis:39px; } .dt-storehouse__shell { gap:8px; } }
 @media(prefers-reduced-motion:reduce) { .dt-storehouse *, .dt-storehouse *::before, .dt-storehouse *::after { scroll-behavior:auto!important; transition:none!important; } }
-/* Keep the same upgrade module readable when the carousel is short on mobile. */
-@media (max-width:720px) {
-  .dt-storehouse__upgrades .dt-upgrade { padding:8px 7px; }
-  .dt-storehouse__upgrades .dt-upgrade__icon { font-size:22px; height:25px; line-height:25px; }
-  .dt-storehouse__upgrades .dt-upgrade__name { font-size:13px; min-height:31px; }
-  .dt-storehouse__upgrades .dt-upgrade__divider { margin:1px 0 5px; }
-  .dt-storehouse__upgrades .dt-upgrade__levels { font-size:12px; margin-bottom:1px; }
-  .dt-storehouse__upgrades .dt-upgrade__effects { font-size:12px; }
-  .dt-storehouse__upgrades .dt-upgrade__arrow { font-size:16px; }
-  .dt-storehouse__upgrades .dt-upgrade__bottom { padding-top:5px; }
-  .dt-storehouse__upgrades .dt-upgrade__button { min-height:32px; padding:4px 3px; font-size:11px; }
-}
 
 /* Unified frame stays intact across viewports; no independent section frames. */
 @media (max-width:1050px) {

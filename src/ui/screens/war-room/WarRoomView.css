@@ -25,14 +25,6 @@
 .dt-warroom__upgrade-viewport::-webkit-scrollbar{display:none}
 .dt-warroom__upgrade-track{height:182px;display:flex;gap:10px;width:max-content;padding:0 1px}
 .dt-warroom__upgrade-slot{width:176px;height:182px;flex:none}
-.dt-warroom__upgrade-slot .dt-upgrade{padding:7px 10px 10px}
-.dt-warroom__upgrade-slot .dt-upgrade__icon{font-size:25px;height:29px;line-height:29px}
-.dt-warroom__upgrade-slot .dt-upgrade__name{font-size:15px;min-height:35px}
-.dt-warroom__upgrade-slot .dt-upgrade__divider{margin:0 0 8px}
-.dt-warroom__upgrade-slot .dt-upgrade__levels{font-size:12px}
-.dt-warroom__upgrade-slot .dt-upgrade__effects{font-size:12px}
-.dt-warroom__upgrade-slot .dt-upgrade__bottom{padding-top:7px}
-.dt-warroom__upgrade-slot .dt-upgrade__button{min-height:32px;padding:5px 4px;font-size:12px}
 .dt-warroom__arrow{align-self:center;flex:none;z-index:1;height:46px;width:24px;border:1px solid #8a537b;border-radius:6px;background:#402a47;color:#ffd16a;font-size:28px;line-height:1;cursor:pointer}
 .dt-warroom__arrow:disabled{opacity:.3;cursor:default}
 .dt-warroom__map-area{flex:1;min-height:0;margin-top:11px;border:1px solid #9e5992;border-radius:10px;position:relative;overflow:hidden;box-shadow:0 0 0 3px #24132b,0 8px 20px #0c051d60}
@@ -112,7 +104,6 @@
  .dt-warroom__room .dt-room-card__stat-value{font-size:20px}
  .dt-warroom__upgrade-track{height:165px}
  .dt-warroom__upgrade-slot{width:160px;height:165px}
- .dt-warroom__upgrade-slot .dt-upgrade__name{font-size:14px;min-height:31px}
  .dt-warroom__map-viewport{height:425px}
  .dt-warroom__map-stage{width:1450px;height:660px}
  .dt-warroom__mission-info{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) 95px;gap:10px}

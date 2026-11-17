@@ -9,7 +9,7 @@
   --lab-panel-deep: #221226;
 }
 .dt-laboratory, .dt-laboratory * { box-sizing: border-box; }
-.dt-laboratory button { font: inherit; cursor: pointer; }
+.dt-laboratory :where(button) { font: inherit; cursor: pointer; }
 .dt-laboratory button:disabled { cursor: not-allowed; }
 .lab-icon { width: 1.1em; height: 1.1em; flex: none; vertical-align: -0.16em; }
 .dt-laboratory {
@@ -62,18 +62,11 @@
 .lab-slider-arrow:disabled { opacity:.35;color:#9f8caa; }
 .lab-slider-arrow .lab-icon { width:21px;height:21px; }
 .lab-slider-arrow:not(:disabled):hover { background:#593358; }
-.lab-upgrade-grid { display:grid;grid-template-columns: repeat(5,minmax(0,1fr));gap:9px;min-width:0; }
-.lab-upgrade-card { min-width:0;min-height:0;display:flex;flex-direction:column;align-items:center;text-align:center;padding: 7px 7px 8px;border:2px solid #82406e;border-radius:12px;background:linear-gradient(140deg, #39223e, #241427 75%);box-shadow:inset 0 1px #d077af36,0 2px 6px #0c07145c; }
-.lab-upgrade-icon { height:26%;width:72%;display:grid;place-items:center;overflow:hidden; }
-.lab-upgrade-icon img { height:100%;width:100%;object-fit:contain;mix-blend-mode:screen; }
-.lab-upgrade-title { color:#ffe3c8;flex:0 0 20%;display:flex;align-items:center;justify-content:center;font-weight:700;margin:0;font-size:clamp(10px,.91vw,15px);line-height:1.1; }
-.lab-upgrade-level { height:14%;display:flex;align-items:center;justify-content:center;font:700 clamp(10px,.79vw,13px) Arial,sans-serif;white-space:nowrap; }
-.lab-upgrade-effect { flex:1;display:grid;place-items:center;font:500 clamp(10px,.83vw,13px) Arial,sans-serif;line-height:1.17;color:#f6d7e4; }
+.lab-upgrade-grid { display:flex;gap:9px;min-width:0;overflow-x:auto; }
 .lab-button { background:linear-gradient(#f9b93f,#bf5e1c);border:2px solid #f7a537;color:#fff4d8;text-shadow:0 1px 1px #56250e;box-shadow:inset 0 1px #ffe08c99,0 3px 0 #69311a,0 4px 7px #12091780;border-radius:10px;font:700 clamp(12px,.94vw,16px) Georgia,serif; }
 .lab-button:not(:disabled):hover { filter:brightness(1.15);transform:translateY(-1px); }
 .lab-button:not(:disabled):active { transform:translateY(2px);box-shadow:inset 0 1px #ffe08c99,0 1px 0 #69311a; }
 .lab-button:disabled { filter:saturate(.45);opacity:.68; }
-.lab-upgrade-button { flex:0 0 20%;width:100%;padding:0;white-space:nowrap;display:flex;align-items:center;justify-content:center;gap:3px; }
 .lab-price { display:flex;align-items:center;font-size:.8em;gap:2px; }
 .lab-price .lab-icon { color:#ffe183;width:1em;height:1em;stroke-width:2.1; }
 .lab-carousel-dots { position:absolute;left:50%;bottom:3px;transform:translateX(-50%);display:flex;gap:12px; }
@@ -120,9 +113,6 @@
   .lab-window { inset:14px 18px; }
   .lab-overview { flex:0 0 260px;grid-template-columns:28% 1fr; }
   .lab-upgrade-grid { gap:5px; }
-  .lab-upgrade-card { padding:6px 3px; }
-  .lab-upgrade-title { font-size:11px; }
-  .lab-upgrade-effect { font-size:10px; }
   .lab-active-card { grid-template-columns:12% 27% 1fr 15% 10%;gap:8px; }
   .lab-content-section { flex:0 0 170px; }
   .lab-available-section { flex:1; }
@@ -139,9 +129,6 @@
   .lab-room-art { height:180px; }
   .lab-room-stat { font-size:14px; }
   .lab-upgrade-region { height:215px; }
-  .lab-upgrade-grid { grid-template-columns:repeat(5,minmax(0,1fr)); }
-  .lab-upgrade-card:nth-child(n+4) { display:none; }
-  .lab-upgrade-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
   .lab-content-section { flex:0 0 180px; }
   .lab-active-card { grid-template-columns:80px 1fr 110px;grid-template-rows:1fr auto;gap:8px; }
   .lab-progress-group { grid-column:2;grid-row:2; }
@@ -151,3 +138,6 @@
   .lab-research-grid { display:flex;flex-direction:column;overflow-y:auto; }
   .lab-research-card,.lab-research-card:nth-child(n+4) { min-height:135px;grid-template-columns:82px minmax(0,1fr) 78px; }
 }
+
+.lab-upgrade-slot { min-width:176px; flex:1 0 176px; }
+.lab-overview { min-height:240px; }

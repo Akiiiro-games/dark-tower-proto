@@ -1,4 +1,6 @@
-import type { LaboratoryActionHandler, LaboratoryActiveProjectViewModel, LaboratoryResearchViewModel, LaboratoryUpgradeViewModel, LaboratoryViewHandle, LaboratoryViewModel } from './LaboratoryViewModel';
+import { mountUpgradeCard } from '../../components/UpgradeCard/UpgradeCard';
+import type { UpgradeCardHandle } from '../../components/UpgradeCard/UpgradeCard.types';
+import type { LaboratoryActionHandler, LaboratoryActiveProjectViewModel, LaboratoryResearchViewModel, LaboratoryViewHandle, LaboratoryViewModel } from './LaboratoryViewModel';
 import './LaboratoryView.css';
 
 /**
@@ -25,19 +27,6 @@ const ICON_PATHS: Record<string, string> = {
 };
 function iconHtml(name: string): string {
   return `<svg class="lab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON_PATHS[name] ?? ICON_PATHS.sparkle}</svg>`;
-}
-
-function upgradeHtml(upgrade: LaboratoryUpgradeViewModel): string {
-  const disabled = !upgrade.actionEnabled;
-  const hint = upgrade.hint ?? '';
-  return `<article class="lab-upgrade-card ${disabled ? 'is-unavailable' : ''}" title="${esc(hint)}">
-      <div class="lab-upgrade-icon"><img src="${esc(upgrade.icon)}" alt="" /></div>
-      <h3 class="lab-upgrade-title">${esc(upgrade.title)}</h3>
-      <div class="lab-upgrade-level">${esc(upgrade.levelText)}</div>
-      <div class="lab-upgrade-effect">${esc(upgrade.effectText)}</div>
-      <button type="button" class="lab-button lab-upgrade-button" data-upgrade="${esc(upgrade.id)}"
-        ${disabled ? 'disabled' : ''} title="${esc(hint)}">${esc(upgrade.actionLabel)}${upgrade.costText ? `<span class="lab-price">${iconHtml('coin')}${esc(upgrade.costText)}</span>` : ''}</button>
-    </article>`;
 }
 
 function activeHtml(project: LaboratoryActiveProjectViewModel | null): string {
@@ -70,6 +59,7 @@ function researchHtml(research: LaboratoryResearchViewModel): string {
 export function mountLaboratoryView(host: HTMLElement, initial: Readonly<LaboratoryViewModel>, onAction: LaboratoryActionHandler): LaboratoryViewHandle {
   let model: Readonly<LaboratoryViewModel> = initial;
   let upgradePage = 0;
+  const upgradeCards: UpgradeCardHandle[] = [];
   let layoutSignature = '';
   let destroyed = false;
 
@@ -79,7 +69,6 @@ export function mountLaboratoryView(host: HTMLElement, initial: Readonly<Laborat
   function onClick(event: MouseEvent): void {
     const target = (event.target as HTMLElement).closest<HTMLButtonElement>('button');
     if (!target || target.disabled) return;
-    if (target.hasAttribute('data-upgrade')) onAction({ type: 'upgradeRequested', upgradeId: target.dataset.upgrade! });
     if (target.hasAttribute('data-research')) onAction({ type: 'startResearchRequested', researchId: target.dataset.research! });
     if (target.hasAttribute('data-page')) {
       upgradePage += Number(target.dataset.page);
@@ -90,6 +79,8 @@ export function mountLaboratoryView(host: HTMLElement, initial: Readonly<Laborat
   root.addEventListener('click', onClick);
 
   function updateProgress(): void {
+    const pageSize = Math.max(1, model.upgradePageSize ?? 5);
+    upgradeCards.forEach((card, index) => card.setModel(model.upgrades[upgradePage * pageSize + index]));
     const active = model.activeProject;
     if (!active) return;
     const track = root.querySelector<HTMLElement>('.lab-progress-track');
@@ -105,6 +96,7 @@ export function mountLaboratoryView(host: HTMLElement, initial: Readonly<Laborat
     const pageCount = Math.max(1, Math.ceil(model.upgrades.length / pageSize));
     upgradePage = clamp(upgradePage, 0, pageCount - 1);
     const visibleUpgrades = model.upgrades.slice(upgradePage * pageSize, (upgradePage + 1) * pageSize);
+    upgradeCards.splice(0).forEach(card => card.destroy());
     root.innerHTML = `
       <div class="lab-outer-glow"></div>
       <main class="lab-window">
@@ -114,7 +106,7 @@ export function mountLaboratoryView(host: HTMLElement, initial: Readonly<Laborat
           </div>
           <div class="lab-upgrade-region">
             <button type="button" class="lab-slider-arrow" data-page="-1" ${upgradePage === 0 ? 'disabled' : ''} aria-label="Previous upgrades">${iconHtml('chevronLeft')}</button>
-            <div class="lab-upgrade-grid">${visibleUpgrades.map(upgradeHtml).join('')}</div>
+            <div class="lab-upgrade-grid"></div>
             <button type="button" class="lab-slider-arrow" data-page="1" ${upgradePage >= pageCount - 1 ? 'disabled' : ''} aria-label="Next upgrades">${iconHtml('chevronRight')}</button>
             <div class="lab-carousel-dots" aria-label="Upgrade pages">${Array.from({ length: pageCount }, (_, i) => `<span class="${i === upgradePage ? 'selected' : ''}"></span>`).join('')}</div>
           </div>
@@ -129,6 +121,13 @@ export function mountLaboratoryView(host: HTMLElement, initial: Readonly<Laborat
         </section>
       </main>
       ${model.toast ? `<div class="lab-toast" role="status">${esc(model.toast)}</div>` : ''}`;
+    const grid = root.querySelector<HTMLElement>('.lab-upgrade-grid')!;
+    for (const upgrade of visibleUpgrades) {
+      const slot = document.createElement('div');
+      slot.className = 'lab-upgrade-slot';
+      grid.append(slot);
+      upgradeCards.push(mountUpgradeCard(slot, upgrade, upgradeId => onAction({ type: 'upgradeRequested', upgradeId })));
+    }
     updateProgress();
   }
 
@@ -136,7 +135,7 @@ export function mountLaboratoryView(host: HTMLElement, initial: Readonly<Laborat
     if (destroyed) return;
     model = next;
     // Preserve button focus/hover between timer-only updates by diffing everything but progress.
-    const withoutProgress = { ...next, activeProject: next.activeProject ? { ...next.activeProject, progress: undefined, remainingText: undefined } : null };
+    const withoutProgress = { ...next, upgrades: next.upgrades.map(upgrade => ({ ...upgrade, progress: undefined, remainingLabel: undefined })), activeProject: next.activeProject ? { ...next.activeProject, progress: undefined, remainingText: undefined } : null };
     const signature = JSON.stringify(withoutProgress);
     if (signature !== layoutSignature) { layoutSignature = signature; render(); } else updateProgress();
   }
@@ -148,6 +147,7 @@ export function mountLaboratoryView(host: HTMLElement, initial: Readonly<Laborat
     destroy(): void {
       if (destroyed) return;
       destroyed = true;
+      upgradeCards.splice(0).forEach(card => card.destroy());
       root.removeEventListener('click', onClick);
       root.remove();
     },

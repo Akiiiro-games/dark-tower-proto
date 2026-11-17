@@ -1,22 +1,22 @@
 .dt-upgrade, .dt-upgrade * { box-sizing: border-box; }
 .dt-upgrade {
-  width: 100%; height: 100%; min-width: 0; padding: 16px 13px 14px;
+  width: 100%; height: 100%; min-width: 0; padding: 7px 10px 10px;
   display: flex; flex-direction: column; align-items: center;
   border: 1px solid #97567e; border-radius: 10px;
   background: linear-gradient(145deg, #372339 0%, #23182c 64%, #1e1528);
   box-shadow: inset 0 0 0 2px #ffffff08, 0 7px 11px #0b051355;
-  text-align: center;
+  text-align: center; font-family: 'Trebuchet MS', Arial, sans-serif; line-height:1.2;
 }
-.dt-upgrade__icon { color: #e9b1d4; font-size: 30px; line-height: 34px; height: 34px; filter: drop-shadow(0 2px 2px #0009); }
-.dt-upgrade__name { color: #f7e7e9; font: 700 17px/1.2 Georgia, serif; min-height: 40px; display: grid; place-items: center; }
+.dt-upgrade__icon { color: #e9b1d4; font-size: 25px; line-height: 29px; height: 29px; filter: drop-shadow(0 2px 2px #0009); }
+.dt-upgrade__name { color: #f7e7e9; font: 700 15px/1.2 Georgia, serif; min-height: 35px; display: grid; place-items: center; }
 .dt-upgrade__divider { height: 1px; width: 100%; background: linear-gradient(90deg, transparent, #935c7d, transparent); margin: 3px 0 9px; }
-.dt-upgrade__levels, .dt-upgrade__effects { width: 100%; display: grid; grid-template-columns: minmax(0,1fr) 22px minmax(0,1fr); align-items: center; font-size: 14px; gap: 0; white-space: nowrap; }
-.dt-upgrade__levels { font-size: 14px; margin-bottom: 4px; color: #f5e4ed; }
+.dt-upgrade__levels, .dt-upgrade__effects { width: 100%; display: grid; grid-template-columns: minmax(0,1fr) 22px minmax(0,1fr); align-items: center; font-size: 12px; gap: 0; white-space: normal; overflow-wrap: anywhere; }
+.dt-upgrade__levels { font-size: 12px; margin-bottom: 4px; color: #f5e4ed; }
 .dt-upgrade__effects { font-weight: 800; color: #fff8e7; }
 .dt-upgrade__effects span:last-child { color: #ffce4d; }
 .dt-upgrade__arrow { color: #ffc437; font-size: 19px; }
-.dt-upgrade__bottom { margin-top: auto; width: 100%; padding-top: 12px; }
-.dt-upgrade__button { width: 100%; min-height: 39px; padding: 7px 8px; color: #fff6df; font: 800 14px/1.2 'Trebuchet MS',sans-serif; border: 1px solid #ffc85c; border-radius: 7px; background: linear-gradient(#e7a64a 0%, #bf6825 55%, #8c411d 100%); box-shadow: inset 0 2px 0 #ffe3a05c, 0 3px 0 #4e261e; text-shadow: 0 1px 2px #31150e; cursor: pointer; }
+.dt-upgrade__bottom { margin-top: auto; width: 100%; padding-top: 7px; }
+.dt-upgrade__button { width: 100%; min-height: 32px; padding: 5px 4px; color: #fff6df; font: 800 12px/1.2 'Trebuchet MS',sans-serif; border: 1px solid #ffc85c; border-radius: 7px; background: linear-gradient(#e7a64a 0%, #bf6825 55%, #8c411d 100%); box-shadow: inset 0 2px 0 #ffe3a05c, 0 3px 0 #4e261e; text-shadow: 0 1px 2px #31150e; cursor: pointer; }
 .dt-upgrade__button:hover:not(:disabled) { filter: brightness(1.18); }
 .dt-upgrade__button:focus-visible { outline: 2px solid #fff2aa; outline-offset: 3px; }
 .dt-upgrade__button:disabled { cursor: default; color: #d8c8df; border-color: #8e7a98; background: #786786; box-shadow: none; }
@@ -34,4 +34,33 @@
 .dt-upgrade__info:focus-visible { outline:2px solid #fff2b0; outline-offset:3px; }
 @media (prefers-reduced-motion: reduce) {
   .dt-upgrade__description { transition:none!important; }
+}
+
+/* Upgrade controls are independent of item-tile container-relative typography. */
+.dt-upgrade .dt-upgrade__info {
+  position:absolute; z-index:4; top:7px; left:7px;
+  display:grid; place-items:center; width:23px; height:23px; min-width:23px;
+  padding:0; border:1px solid #d4a2c4; border-radius:50%;
+  background:#39263e; color:#e2b7d6; font:800 italic 14px/1 Georgia,serif; cursor:help;
+}
+.dt-upgrade .dt-upgrade__info:hover { background:#5b3a56; }
+.dt-upgrade__icon img { display:block; width:29px; height:29px; object-fit:contain; }
+.dt-upgrade__description {
+  position:absolute; z-index:10; top:calc(100% + 9px); left:-1px;
+  display:none; width:max-content; max-width:min(218px,78vw); min-width:120px;
+  padding:10px 12px; border:1px solid #9a82aa; border-radius:8px;
+  box-shadow:0 10px 24px #080511ce; background:#1c1529; color:#f4e9ff;
+  text-align:left; font:500 12px/1.5 system-ui,sans-serif; white-space:normal; pointer-events:none;
+}
+.dt-upgrade__info:hover .dt-upgrade__description,
+.dt-upgrade__info:focus-visible .dt-upgrade__description { display:block; }
+@media(max-width:720px) {
+  .dt-upgrade { padding:8px 5px; }
+  .dt-upgrade__icon { height:25px; line-height:25px; font-size:21px; }
+  .dt-upgrade__icon img { width:25px; height:25px; }
+  .dt-upgrade__name { font-size:13px; min-height:32px; }
+  .dt-upgrade__divider { margin:2px 0 4px; }
+  .dt-upgrade__levels, .dt-upgrade__effects { font-size:11px; }
+  .dt-upgrade__button { min-height:30px; padding:3px 1px; font-size:11px; }
+  .dt-upgrade__bottom { padding-top:4px; }
 }

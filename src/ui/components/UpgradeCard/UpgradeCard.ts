@@ -1,6 +1,5 @@
 import type { UpgradeCardViewModel, UpgradeCardHandle, UpgradeCardActionHandler } from './UpgradeCard.types';
 import './UpgradeCard.css';
-import '../ItemComponent/ItemComponent.css';
 
 let nextInfoId = 0;
 
@@ -11,7 +10,7 @@ export function mountUpgradeCard(host: HTMLElement, initial: Readonly<UpgradeCar
   const root = document.createElement('article');
   root.className = 'dt-upgrade';
   root.innerHTML = `
-    <button type="button" class="dt-upgrade__info dt-item__info dt-item__corner" aria-label="Upgrade information" aria-describedby="${tooltipId}">i<span id="${tooltipId}" class="dt-upgrade__description dt-item__tooltip dt-item__tooltip--left" role="tooltip"></span></button>
+    <button type="button" class="dt-upgrade__info" aria-label="Upgrade information" aria-describedby="${tooltipId}">i<span id="${tooltipId}" class="dt-upgrade__description" role="tooltip"></span></button>
     <div class="dt-upgrade__icon" aria-hidden="true"></div>
     <div class="dt-upgrade__name"></div>
     <div class="dt-upgrade__divider"></div>
@@ -49,7 +48,13 @@ export function mountUpgradeCard(host: HTMLElement, initial: Readonly<UpgradeCar
   function setModel(model: Readonly<UpgradeCardViewModel>): void {
     if (destroyed) return;
     current = model;
-    get('.dt-upgrade__icon').textContent = model.icon;
+    const icon = get('.dt-upgrade__icon');
+    if (model.iconSrc) {
+      const image = document.createElement('img');
+      image.src = model.iconSrc;
+      image.alt = '';
+      icon.replaceChildren(image);
+    } else icon.textContent = model.icon;
     get('.dt-upgrade__name').textContent = model.title;
     get('.dt-upgrade__level-from').textContent = model.currentLevel;
     get('.dt-upgrade__level-to').textContent = model.nextLevel;

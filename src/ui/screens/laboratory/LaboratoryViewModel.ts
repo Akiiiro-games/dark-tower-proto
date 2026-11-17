@@ -1,3 +1,5 @@
+import type { UpgradeCardViewModel } from '../../components/UpgradeCard/UpgradeCard.types';
+
 /** Display-ready contract, ported from the plain-JS LaboratoryView mock. The shell now owns the
  * back button/title, so this screen renders only its own content (no header). */
 export interface LaboratoryRoomStat {
@@ -5,18 +7,7 @@ export interface LaboratoryRoomStat {
   readonly label: string;
   readonly value: string;
 }
-export interface LaboratoryUpgradeViewModel {
-  readonly id: string;
-  readonly title: string;
-  readonly icon: string;
-  readonly levelText: string;
-  readonly effectText: string;
-  readonly costText: string;
-  readonly actionLabel: string;
-  readonly actionEnabled: boolean;
-  readonly hint?: string;
-  readonly badge?: string;
-}
+export type LaboratoryUpgradeViewModel = UpgradeCardViewModel;
 export interface LaboratoryResearchViewModel {
   readonly id: string;
   readonly title: string;

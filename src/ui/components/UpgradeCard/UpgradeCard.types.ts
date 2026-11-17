@@ -1,6 +1,7 @@
 export interface UpgradeCardViewModel {
   readonly id: string;
   readonly icon: string;
+  readonly iconSrc?: string;
   readonly title: string;
   readonly description?: string;
   readonly progress?: number;
