@@ -1,6 +1,7 @@
 import { CONFIG } from '../../../data/config';
 import type { GameEngine } from '../../../engine/GameEngine';
 import type { SaleProcess } from '../../../model/types';
+import { fullStackValue, instantSaleValue } from '../../../systems/storehouse';
 import type { ItemComponentViewModel } from '../../components/ItemComponent/ItemComponent.types';
 import { asset } from '../assets';
 import { buildUpgradeLineViewModel, fmtHours, groupUpgradeFamilies, iconForItem, roomUpgradeDefs } from '../shared';
@@ -29,7 +30,7 @@ function itemDef(itemId: string) {
 
 function instantSellLabel(goldValue: number): string {
   const fraction = CONFIG.constants.instantSaleFraction;
-  return `Instant Sale (${fraction * 100}%) · ${Math.floor(goldValue * fraction)} 🪙`;
+  return `Instant Sale (${fraction * 100}%) · ${instantSaleValue(goldValue)} 🪙`;
 }
 
 export function buildStorehouseViewModel(engine: GameEngine, ui: StorehouseUiState): StorehouseViewModel {
@@ -44,6 +45,7 @@ export function buildStorehouseViewModel(engine: GameEngine, ui: StorehouseUiSta
   const matchesFilters = (itemId: string) => itemDef(itemId).tags.some(tag => ui.activeTags.has(tag));
   const readyItems: ItemComponentViewModel[] = state.stacks.filter(stack => matchesFilters(stack.itemId)).map(stack => {
     const def = itemDef(stack.itemId);
+    const goldValue = fullStackValue(stack.itemId, stack.count);
     return {
       id: stack.id,
       title: def.name,
@@ -53,9 +55,9 @@ export function buildStorehouseViewModel(engine: GameEngine, ui: StorehouseUiSta
       stack: { label: `× ${stack.count}`, tooltip: `${stack.count} of ${def.maxStackSize} in stack` },
       sale: {
         status: 'ready',
-        sellLabel: `Sell · ${def.baseValueGold * stack.count} 🪙`,
+        sellLabel: `Sell · ${goldValue} 🪙`,
         canSell: true,
-        instantSellLabel: instantSellLabel(def.baseValueGold * stack.count),
+        instantSellLabel: instantSellLabel(goldValue),
         canInstantSell: true,
       },
     };

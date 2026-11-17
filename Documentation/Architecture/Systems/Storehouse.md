@@ -6,11 +6,13 @@
 
 | File | Role |
 |---|---|
-| `src/systems/storehouse.ts` | `startNormalSale`, `instantSale`, `completeSale`; stack-value/duration math. |
+| `src/systems/storehouse.ts` | Sale actions/completion and stack-value/duration math; read-only `fullStackValue` and `instantSaleValue` queries shared with the UI adapter. |
 | `src/systems/economy.ts` | shared `creditGold`/`canAfford`/`spend` used by every system, not Storehouse-specific. |
 | `src/model/GameState.ts` | `stacks: ItemStack[]`, `storageSlots()`, `usedSlots()`, `addItems()`, `removeStack()` (`GameState.ts:113-120, 243-264`). |
 | `src/data/config.ts` | `items: ItemDef[]` (id, tags, `maxStackSize`, `baseValueGold`); `constants.saleBaseHours`, `saleHoursPerCopy`, `instantSaleFraction`. |
-| `src/ui/screens/storehouse/{StorehouseView,StorehouseViewModel,StorehouseAdapter}.ts` | UI entry point. |
+| `src/ui/screens/storehouse/StorehouseView.ts` and `.css` | DOM composition, card lifecycle, carousel scrolling and content-sized header layout. No gameplay rules or engine access. |
+| `src/ui/screens/storehouse/StorehouseViewModel.ts` | Display-only models and action contracts. |
+| `src/ui/screens/storehouse/StorehouseAdapter.ts` | Maps engine state and sale-value queries to display models, owns filter state, and routes mutations through engine actions. |
 
 ## State owned
 

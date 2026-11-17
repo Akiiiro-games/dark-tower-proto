@@ -7,8 +7,12 @@ function itemDef(itemId: string) {
     return CONFIG.items.find(i => i.id === itemId)!;
 }
 
-function fullStackValue(itemId: string, count: number): number {
+export function fullStackValue(itemId: string, count: number): number {
     return itemDef(itemId).baseValueGold * count;
+}
+
+export function instantSaleValue(goldValue: number): number {
+    return Math.floor(goldValue * CONFIG.constants.instantSaleFraction);
 }
 
 function normalSaleDurationHours(count: number, state: GameState): number {
@@ -40,7 +44,7 @@ export function instantSale(state: GameState, stackId: string): boolean {
     const sale = findPendingSale(state, stackId);
     const stack = sale ?? state.stacks.find(s => s.id === stackId);
     if (!stack) return false;
-    const payout = Math.floor(fullStackValue(stack.itemId, stack.count) * CONFIG.constants.instantSaleFraction);
+    const payout = instantSaleValue(fullStackValue(stack.itemId, stack.count));
     if (sale) state.processes = state.processes.filter(process => process !== sale);
     else state.removeStack(stackId);
     creditGold(state, payout);
