@@ -29,7 +29,7 @@ function itemDef(itemId: string) {
 
 function instantSellLabel(goldValue: number): string {
   const fraction = CONFIG.constants.instantSaleFraction;
-  return `Instant Sale (${fraction * 100}%) · ${Math.floor(goldValue * fraction)}g`;
+  return `Instant Sale (${fraction * 100}%) · ${Math.floor(goldValue * fraction)} 🪙`;
 }
 
 export function buildStorehouseViewModel(engine: GameEngine, ui: StorehouseUiState): StorehouseViewModel {
@@ -53,7 +53,7 @@ export function buildStorehouseViewModel(engine: GameEngine, ui: StorehouseUiSta
       stack: { label: `× ${stack.count}`, tooltip: `${stack.count} of ${def.maxStackSize} in stack` },
       sale: {
         status: 'ready',
-        sellLabel: `Sell · ${def.baseValueGold * stack.count}g`,
+        sellLabel: `Sell · ${def.baseValueGold * stack.count} 🪙`,
         canSell: true,
         instantSellLabel: instantSellLabel(def.baseValueGold * stack.count),
         canInstantSell: true,
@@ -75,7 +75,7 @@ export function buildStorehouseViewModel(engine: GameEngine, ui: StorehouseUiSta
         stack: { label: `× ${selling.count}`, tooltip: `${selling.count} of ${def.maxStackSize} in stack` },
         sale: {
           status: 'selling',
-          sellLabel: `Sell · ${selling.goldValue}g`,
+          sellLabel: `Sell · ${selling.goldValue} 🪙`,
           progress: Math.min(1, Math.max(0, (state.hours - selling.startHour) / (selling.endHour - selling.startHour))),
           remainingLabel: fmtHours(Math.max(0, selling.endHour - state.hours)),
           instantSellLabel: instantSellLabel(selling.goldValue),
